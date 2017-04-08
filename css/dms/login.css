@@ -5,6 +5,10 @@
 	margin-bottom: 10%;
 }
 
+.modal-centralize {
+	margin-top: 5%;
+}
+
 .content-center, .form-control{
 	text-align: center;
 }
