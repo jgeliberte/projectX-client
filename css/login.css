@@ -1,0 +1,10 @@
+.centralize-top {
+	margin-top: 10%;
+}
+.centralize-bottom {
+	margin-bottom: 10%;
+}
+
+.content-center, .form-control{
+	text-align: center;
+}
