@@ -7,6 +7,13 @@ $(document).ready(function() {
 
     	$.post('../login/validate/',{credentials: data}).done(function(data){
     		var response = JSON.parse(data);
+            if (response.response == true) {
+                window.location = "../dashboard";
+            } else {
+                $.notify('Incorrect Username / Password',"error");
+                $('#username').val('');
+                $('#password').val('');
+            }
     	});	
     });
 
@@ -21,7 +28,13 @@ $(document).ready(function() {
     	}
 
     	$.post('../login/register/',{user_info: data}).done(function(data){
-    		var response = JSON.parse(data);	
+    		var response = JSON.parse(data);
+            if (response.response == "success") {
+                $('#register-modal').modal('toggle');
+                $.notify('Registration Complete',"success");
+            } else {
+                $.notify('Registration Failed, Duplicate User.',"error");
+            }
     	});
     });
 });
