@@ -1,0 +1,74 @@
+.main {
+	transition: margin-left .5s;
+	padding: 16px;
+	margin-left: 250px;
+}
+
+.dental {
+	background-image: url("../../css/dental.png");
+	height: auto;
+	width: auto;
+	background-repeat: no-repeat;
+	background-position: center;
+}
+
+.user {
+	background-image: url("../../css/user.png");
+	height: auto;
+	width: auto;
+	background-repeat: no-repeat;
+	background-position: center;
+}
+
+.settings {
+	background-image: url("../../css/settings.png");
+	height: auto;
+	width: auto;
+	background-repeat: no-repeat;
+	background-position: center;
+}
+
+.logs {
+	background-image: url("../../css/logs.png");
+	height: auto;
+	width: auto;
+	background-repeat: no-repeat;
+	background-position: center;
+}
+
+.square-box {
+    position: relative;
+    width: 10%;
+    /*overflow: hidden;*/
+    margin-right: 5px;
+    background: #4679BD;
+}
+.square-box:before {
+    content: "";
+    display: block;
+    padding-top: 100%;
+}
+.square-content {
+    position:  absolute;
+    top: 0;
+    left: 0;
+    bottom: 0;
+    right: 0;
+    color: white;
+}
+.square-content div {
+   display: table;
+   width: 100%;
+   height: 100%;
+}
+.square-content span {
+    display: block;
+    text-align: center;
+    vertical-align: middle;
+    color: white
+}
+
+.textMenu {
+	margin-top: 77%;
+	font-size: 14px;
+}
