@@ -1,7 +1,5 @@
 .main {
-	transition: margin-left .5s;
-	padding: 16px;
-	margin-left: 250px;
+	margin: 2% 5% 5% 5%;
 }
 
 .dental {
@@ -36,39 +34,66 @@
 	background-position: center;
 }
 
+.inventory{
+	background-image: url("../../css/inventory.png");
+	height: auto;
+	width: auto;
+	background-repeat: no-repeat;
+	background-position: center;
+}
+
 .square-box {
-    position: relative;
-    width: 10%;
-    /*overflow: hidden;*/
-    margin-right: 5px;
-    background: #4679BD;
+	position: relative;
+	width: 10%;
+	/*overflow: hidden;*/
+	margin-right: 5px;
+	background: #4679BD;
 }
 .square-box:before {
-    content: "";
-    display: block;
-    padding-top: 100%;
+	content: "";
+	display: block;
+	padding-top: 100%;
 }
 .square-content {
-    position:  absolute;
-    top: 0;
-    left: 0;
-    bottom: 0;
-    right: 0;
-    color: white;
+	position:  absolute;
+	top: 0;
+	left: 0;
+	bottom: 0;
+	right: 0;
+	color: white;
 }
+
+.square-box:hover {
+	transition-duration: 300ms;
+	transform: scale(1.5);
+}
+
 .square-content div {
-   display: table;
-   width: 100%;
-   height: 100%;
+	display: table;
+	width: 100%;
+	height: 100%;
 }
 .square-content span {
-    display: block;
-    text-align: center;
-    vertical-align: middle;
-    color: white
+	display: block;
+	text-align: center;
+	vertical-align: middle;
+	color: white
 }
 
 .textMenu {
 	margin-top: 77%;
 	font-size: 14px;
+}
+
+.tableHeader {
+	text-align: center;
+}
+
+.tableAlignFromTop {
+	margin-top: 2%;
+}
+
+.labelModal {
+	float: left;
+	padding-left: 2%;
 }
