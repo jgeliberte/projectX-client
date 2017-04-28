@@ -97,3 +97,11 @@
 	float: left;
 	padding-left: 2%;
 }
+
+.addressInputBox {
+	margin-bottom: -6%;
+}
+.subLabeAddress{
+	display: block;
+	text-align: center;
+}
