@@ -66,6 +66,9 @@
 .square-box:hover {
 	transition-duration: 300ms;
 	transform: scale(1.5);
+	z-index: 1;
+	outline-color: #ffffff;
+    outline-style: solid;
 }
 
 .square-content div {

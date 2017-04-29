@@ -1,12 +1,12 @@
 $(document).ready(function() {
-	$('#patientRecords').DataTable( {
-        data: displayPatientData()
-    } );
-
-    $('#dentalRecords').DataTable( {
-        data: displayDentalRecords()
-    } );
 	
+	$('#patientRecords').DataTable( {
+		data: displayPatientData()
+	} );
+
+	$('#dentalRecords').DataTable( {
+		data: displayDentalRecords()
+	} );
 
 	function displayPatientData() {
 		var patientData = [
@@ -20,8 +20,8 @@ $(document).ready(function() {
 
 	function appendPatientIcons() {
 		var icons = "<div style='display: block;text-align: center;'>" + 
-		"<span id = 'updatePatient' class='glyphicon glyphicon-pencil' aria-hidden='true' style='margin-right: 15%;'></span>" + 
-		"<span id = 'archivePatient' class='glyphicon glyphicon-trash' aria-hidden='true'></span>" + 
+		"<span class='updatePatient glyphicon glyphicon-pencil' aria-hidden='true' style='margin-right: 15%;'></span>" + 
+		"<span class='glyphicon glyphicon-trash' aria-hidden='true'></span>" + 
 		"</div>"
 
 		return icons;
@@ -46,9 +46,9 @@ $(document).ready(function() {
 		return icons;
 	}
 
-	$("#updatePatient").click(function(){
-    $('#addPatient').modal('toggle');
-});
+	$(".updatePatient").click(function(){
+		$('#addPatient').modal('toggle');
+	});
 
 
 });
