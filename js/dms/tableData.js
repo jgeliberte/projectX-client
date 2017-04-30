@@ -1,23 +1,41 @@
 $(document).ready(function() {
-	
-	$('#patientRecords').DataTable( {
-		data: displayPatientData()
-	} );
 
 	$('#dentalRecords').DataTable( {
 		data: displayDentalRecords()
 	} );
 
-	function displayPatientData() {
-		var patientData = [
-		["1" , "Juan" , "Dela Cruz" , "26" , "09012345678", appendPatientIcons()],
-		["2" , "Maria" , "Clara" , "21" , "09253457810", appendPatientIcons()],
-		["3" , "John" , "Geliberte" , "23" , "099946193003", appendPatientIcons()]
-		];
 
-		return patientData;
-	}
+	$('#patient_records').click(function(){
+		$.get( "../v1/fetchallpatient", function( data ) {
+			var response = JSON.parse(data);
+			var dataset = [];
+			var dataraw= [];
+			debugger;
+			for (var counter = 0; counter < response.data.length; counter++) {
+				var ctr = 0;
+				var getKeys = $.map(response.data[counter], function(value, index) {
+					return [value];
+				});
 
+		        getKeys.forEach(function(x) {
+		        	if (ctr == 0 || ctr == 1 ||
+		        		ctr == 3 || ctr == 4 || ctr == 8) {
+		        		dataraw.push(x);
+		        	}
+		        	ctr++;
+		        });
+
+				dataraw.push(appendPatientIcons());
+				dataset.push(dataraw);
+				dataraw = [];
+			}
+			console.log(dataset);
+ 			$('#patientRecords').DataTable( {
+				data: dataset
+			});
+		});
+	});
+	
 	function appendPatientIcons() {
 		var icons = "<div style='display: block;text-align: center;'>" + 
 		"<span class='updatePatient glyphicon glyphicon-pencil' aria-hidden='true' style='margin-right: 15%;'></span>" + 
