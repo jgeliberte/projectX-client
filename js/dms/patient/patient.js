@@ -62,14 +62,32 @@ $(document).ready(function() {
 
 	$('#btnAddPatient').on('click', function(){
 		$.post("/v1/addpatient" , function(data){
-			var bla = $('#firstName').val();
-			alert(bla);
+			var sendPatientDataFirstArray = ["patient_data"];
+			var sendPatientDataArray = [];
+			var sendPatientObject = {};
+			sendPatientObject["firstname"] = $('#firstName').val();
+			sendPatientObject["lastname"] =  $('#lastName').val();
+			sendPatientObject["middlename"] = $('#middleName').val();
+			sendPatientObject["gender"] =  $('input[name=gender]:checked').val();
+			sendPatientObject["address"] = $('#address').val(),
+			sendPatientObject["email_address"] = $('#email').val(),
+			sendPatientObject["primary_contact"] = $('#primary').val(),
+			sendPatientObject["secondary_contact"] = $('#secondary').val()
+			for(var i=0; i<sendPatientDataFirstArray.length; i++) {
+				sendPatientDataArray[sendPatientDataFirstArray[i]] = sendPatientObject;
+
+			}
+			//sendPatientDataFirstArray.push({["patient_data"] : sendPatientObject});
+			//sendPatientDataArray.push(sendPatientDataFirstArray);
+			//ar bla = $('#firstName').val();
+			console.log(sendPatientDataFirstArray);
+			
 		});
 	});
 
 	$('.modal').on('hidden.bs.modal', function(e) { 
-        $(".modal-body input").val("")
-    }) ;
+		$(".modal-body input").val("")
+	}) ;
 
 
 
