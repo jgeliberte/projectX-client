@@ -62,7 +62,7 @@ $(document).ready(function() {
 
 	$('#btnAddPatient').on('click', function(){
 		$.post("/v1/addpatient" , function(data){
-			var sendPatientDataFirstArray = ["patient_data"];
+			var sendPatientDataFirstArray = [];
 			var sendPatientDataArray = [];
 			var sendPatientObject = {};
 			sendPatientObject["firstname"] = $('#firstName').val();
@@ -73,13 +73,7 @@ $(document).ready(function() {
 			sendPatientObject["email_address"] = $('#email').val(),
 			sendPatientObject["primary_contact"] = $('#primary').val(),
 			sendPatientObject["secondary_contact"] = $('#secondary').val()
-			for(var i=0; i<sendPatientDataFirstArray.length; i++) {
-				sendPatientDataArray[sendPatientDataFirstArray[i]] = sendPatientObject;
-
-			}
-			//sendPatientDataFirstArray.push({["patient_data"] : sendPatientObject});
-			//sendPatientDataArray.push(sendPatientDataFirstArray);
-			//ar bla = $('#firstName').val();
+			sendPatientDataFirstArray["patient_data"] = sendPatientObject;
 			console.log(sendPatientDataFirstArray);
 			
 		});
