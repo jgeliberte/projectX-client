@@ -1,54 +1,76 @@
 $(document).ready(function() {
-	var patientResult = [];
-	var array1 = [];
+	var patientJsonResult = [];
+	var patientDataset = [];
 	$('#patientMenu').click(function(){
 		window.location = '/v1/patient';
 	});
-	$('#patientMenu').load(
-		$.getJSON("/v1/fetchallpatient", function(data){
-			for (var key in data) {
-				if(data.hasOwnProperty(key)){
-					var value = data[key];
-					console.log(value);
-					var dataParse = JSON.stringify(value);
-					for (var i = 0; i < value.length; i++) {
-						if(value[i].firstname != null){
-							patientResult.push(i + 1);
-							patientResult.push(value[i].firstname);
-							patientResult.push(value[i].lastname);
-							patientResult.push(value[i].age);
-							patientResult.push(value[i].primary_contact);
-							patientResult.push(appendPatientIcons());
-							array1.push(patientResult);
-							patientResult = [];
-							
-						}
+	//$('#patientMenu').load(
+	$.getJSON("/v1/fetchallpatient", function(data){
+		for (var key in data) {
+			if(data.hasOwnProperty(key)){
+				var value = data[key];
+				console.log(value);
+				var dataParse = JSON.stringify(value);
+				for (var i = 0; i < value.length; i++) {
+					if(value[i].firstname != null){
+						patientJsonResult.push(i + 1);
+						patientJsonResult.push(value[i].firstname);
+						patientJsonResult.push(value[i].lastname);
+						patientJsonResult.push(value[i].age);
+						patientJsonResult.push(value[i].primary_contact);
+						patientJsonResult.push(appendPatientIcons());
+						patientJsonResult.push(value[i].middlename);
+						patientJsonResult.push(value[i].gender);
+						patientJsonResult.push(value[i].address);
+						patientJsonResult.push(value[i].email_address);
+						patientJsonResult.push(value[i].secondary_contact);
+						patientDataset.push(patientJsonResult);
+						patientJsonResult = [];
+
 					}
-					console.log("Data: " + dataParse);
-					console.log("array :" + patientResult);
 				}
-			};
-			console.log(array1);
+				console.log("Data: " + dataParse);
+				console.log("array :" + patientJsonResult);
+			}
+		};
+		console.log(patientDataset);
             //$('#patient_records').attr("href", 'v1/patient');
             var patientTable = $('#patientRecords').DataTable( {
-            	data: array1
+            	data: patientDataset,
+            	columns: [
+            	{title: "#"},
+            	{title: "First Name"},
+            	{title: "Last Name"},
+            	{title: "Age"},
+            	{title: "Phone Contact"},
+            	{title: ""}
+            	]
             } );
 
-            $("#patientRecords .updatePatient").click('tr' , function(){
-            	var data = patientTable.row( this ).data();
-            	alert( 'You clicked on '+data[0]+'\'s row' );
-		//$('#addPatient').modal('toggle');
+            $("#patientRecords tbody").on('click', '.updatePatient' , function(){
+            	var closestRow = $(this).closest('tr');
+            	var data = patientTable.row(closestRow).data();
+            	var taskID = data;
+            	$('#addPatient').modal('toggle');
+            	setPatientData(data);
+            	//alert(taskID);
+            	
+            });
+
+        });
+	// /);
+
+	$('#btnAddPatient').on('click', function(){
+		$.post("/v1/addpatient" , function(data){
+			var bla = $('#firstName').val();
+			alert(bla);
+		});
 	});
 
-            // $('#patientRecords tbody').on('click', 'tr', function () {
-            // 	var data = patientTable.row( this ).data();
-            // 	alert( 'You clicked on '+data[0]+'\'s row' );
-            // } );
+	$('.modal').on('hidden.bs.modal', function(e) { 
+        $(".modal-body input").val("")
+    }) ;
 
-
-        //});
-    })
-		);
 
 
 });
@@ -60,4 +82,17 @@ function appendPatientIcons() {
 	"</div>"
 
 	return icons;
+}
+
+function setPatientData(patientValue){
+	$('#firstName').val(patientValue[1]);
+	$('#middleName').val(patientValue[6]);
+	$('#lastName').val(patientValue[2]);
+	$('#age').val(patientValue[3]);
+	$('#address').val(patientValue[8]);
+	$('#email').val(patientValue[9]);
+	$('#primary').val(patientValue[4]);
+	$('#secondary').val(patientValue[10]);
+	$("input[name=gender][value=" + patientValue[7] + "]").prop('checked', true);
+
 }

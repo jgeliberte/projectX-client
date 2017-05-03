@@ -102,9 +102,10 @@
 }
 
 .addressInputBox {
-	margin-bottom: -6%;
+    margin-right: 10%;
 }
-.subLabeAddress{
+
+.subLabelAddress{
 	display: block;
 	text-align: center;
 }
