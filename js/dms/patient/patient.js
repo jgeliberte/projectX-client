@@ -1,6 +1,7 @@
 $(document).ready(function() {
 	var patientJsonResult = [];
 	var patientDataset = [];
+	var data;
 	$('#patientMenu').click(function(){
 		window.location = '/v1/patient';
 	});
@@ -49,7 +50,7 @@ $(document).ready(function() {
 
             $("#patientRecords tbody").on('click', '.updatePatient' , function(){
             	var closestRow = $(this).closest('tr');
-            	var data = patientTable.row(closestRow).data();
+            	data = patientTable.row(closestRow).data();
             	var taskID = data;
             	$('#addPatient').modal('toggle');
             	setPatientData(data);
@@ -61,29 +62,26 @@ $(document).ready(function() {
 	// /);
 
 	$('#btnAddPatient').on('click', function(){
-		$.post("/v1/addpatient" , function(data){
-			var sendPatientDataFirstArray = [];
-			var sendPatientDataArray = [];
-			var sendPatientObject = {};
-			sendPatientObject["firstname"] = $('#firstName').val();
-			sendPatientObject["lastname"] =  $('#lastName').val();
-			sendPatientObject["middlename"] = $('#middleName').val();
-			sendPatientObject["gender"] =  $('input[name=gender]:checked').val();
-			sendPatientObject["address"] = $('#address').val(),
-			sendPatientObject["email_address"] = $('#email').val(),
-			sendPatientObject["primary_contact"] = $('#primary').val(),
-			sendPatientObject["secondary_contact"] = $('#secondary').val()
-			sendPatientDataFirstArray["patient_data"] = sendPatientObject;
-			console.log(sendPatientDataFirstArray);
-			
-		});
+		if(data == ""){
+			$.post("/v1/addpatient", sendPatientInfo())
+			.done(function(data){
+				alert(data);
+				console.log( JSON.stringify(sendPatientInfo()));
+
+			});
+		} else {
+			$.post("/v1/updatepatient", sendPatientInfo())
+			.done(function(data){
+				alert(data);
+				console.log( JSON.stringify(sendPatientInfo()));
+
+			});
+		}
 	});
 
 	$('.modal').on('hidden.bs.modal', function(e) { 
 		$(".modal-body input").val("")
 	}) ;
-
-
 
 });
 
@@ -107,4 +105,22 @@ function setPatientData(patientValue){
 	$('#secondary').val(patientValue[10]);
 	$("input[name=gender][value=" + patientValue[7] + "]").prop('checked', true);
 
+}
+
+function sendPatientInfo(){
+	var sendPatientObject = {};
+	var sendPatientDataArray = {};
+
+	sendPatientObject["firstname"] = $('#firstName').val();
+	sendPatientObject["lastname"] =  $('#lastName').val();
+	sendPatientObject["middlename"] = $('#middleName').val();
+	sendPatientObject["age"] = $('#age').val();
+	sendPatientObject["gender"] =  $('input[name=gender]:checked').val();
+	sendPatientObject["address"] = $('#address').val();
+	sendPatientObject["email_address"] = $('#email').val();
+	sendPatientObject["primary_contact"] = $('#primary').val();
+	sendPatientObject["secondary_contact"] = $('#secondary').val();
+	sendPatientDataArray["patient_data"] = JSON.stringify(sendPatientObject);
+
+	return sendPatientDataArray;
 }
