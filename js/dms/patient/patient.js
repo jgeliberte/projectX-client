@@ -2,6 +2,7 @@ var patientJsonResult = [];
 var patientDataset = [];
 var patientTable;
 var data = null;
+var patientId = "";
 
 $(document).ready(function() {
 	$('#patientMenu').click(function(){
@@ -68,6 +69,7 @@ function getPatientFromServer(){
 						patientJsonResult.push(value[i].address);
 						patientJsonResult.push(value[i].email_address);
 						patientJsonResult.push(value[i].secondary_contact);
+						patientJsonResult.push(value[i].id);
 						patientDataset.push(patientJsonResult);
 						patientJsonResult = [];
 
@@ -110,6 +112,7 @@ function updatePatient(){
 }
 
 function setPatientData(patientValue){
+	patientId = patientValue[11];
 	$('#firstName').val(patientValue[1]);
 	$('#middleName').val(patientValue[6]);
 	$('#lastName').val(patientValue[2]);
@@ -126,10 +129,11 @@ function sendPatientInfo(){
 	var sendPatientObject = {};
 	var sendPatientDataArray = {};
 
+	sendPatientObject["id"] = patientId;
 	sendPatientObject["firstname"] = $('#firstName').val();
 	sendPatientObject["lastname"] =  $('#lastName').val();
 	sendPatientObject["middlename"] = $('#middleName').val();
-	sendPatientObject["age"] = $('#age').val();
+	sendPatientObject["birthdate"] = $('#birthdate').val();
 	sendPatientObject["gender"] =  $('input[name=gender]:checked').val();
 	sendPatientObject["address"] = $('#address').val();
 	sendPatientObject["email_address"] = $('#email').val();
