@@ -1,11 +1,53 @@
+var patientJsonResult = [];
+var patientDataset = [];
+var patientTable;
+var data = null;
+
 $(document).ready(function() {
-	var patientJsonResult = [];
-	var patientDataset = [];
-	var data;
 	$('#patientMenu').click(function(){
 		window.location = '/v1/patient';
 	});
-	//$('#patientMenu').load(
+
+	setPatientToDataTable();
+	getPatientFromServer();
+
+	$('#btnAddPatient').on('click', function(){
+		if(data == null){
+			alert("add");
+			$.post("/v1/addpatient", sendPatientInfo())
+			.done(function(data){
+				console.log( JSON.stringify(data.status));
+				getPatientFromServer()
+
+			});
+		} else {
+			alert("update");
+			$.post("/v1/updatepatient", sendPatientInfo())
+			.done(function(data){
+				alert(data);
+				console.log( JSON.stringify(sendPatientInfo()));
+
+			});
+		}
+	});
+	
+
+	$('.modal').on('hidden.bs.modal', function(e) { 
+		$(".modal-body input").val("")
+	}) ;
+
+});
+
+function appendPatientIcons() {
+	var icons = "<div style='display: block;text-align: center;'>" + 
+	"<span class='updatePatient glyphicon glyphicon-pencil' aria-hidden='true' style='margin-right: 15%;'></span>" + 
+	"<span class='archiveData glyphicon glyphicon-trash' aria-hidden='true'></span>" + 
+	"</div>"
+
+	return icons;
+}
+
+function getPatientFromServer(){
 	$.getJSON("/v1/fetchallpatient", function(data){
 		for (var key in data) {
 			if(data.hasOwnProperty(key)){
@@ -35,63 +77,35 @@ $(document).ready(function() {
 			}
 		};
 		console.log(patientDataset);
-            //$('#patient_records').attr("href", 'v1/patient');
-            var patientTable = $('#patientRecords').DataTable( {
-            	data: patientDataset,
-            	columns: [
-            	{title: "#"},
-            	{title: "First Name"},
-            	{title: "Last Name"},
-            	{title: "Age"},
-            	{title: "Phone Contact"},
-            	{title: ""}
-            	]
-            } );
+		patientTable.clear();
+		patientTable.rows.add(patientDataset);
+		patientTable.draw();
 
-            $("#patientRecords tbody").on('click', '.updatePatient' , function(){
-            	var closestRow = $(this).closest('tr');
-            	data = patientTable.row(closestRow).data();
-            	var taskID = data;
-            	$('#addPatient').modal('toggle');
-            	setPatientData(data);
-            	//alert(taskID);
-            	
-            });
-
-        });
-	// /);
-
-	$('#btnAddPatient').on('click', function(){
-		if(data == ""){
-			$.post("/v1/addpatient", sendPatientInfo())
-			.done(function(data){
-				alert(data);
-				console.log( JSON.stringify(sendPatientInfo()));
-
-			});
-		} else {
-			$.post("/v1/updatepatient", sendPatientInfo())
-			.done(function(data){
-				alert(data);
-				console.log( JSON.stringify(sendPatientInfo()));
-
-			});
-		}
-	});
-
-	$('.modal').on('hidden.bs.modal', function(e) { 
-		$(".modal-body input").val("")
-	}) ;
-
+		updatePatient();
 });
+}
 
-function appendPatientIcons() {
-	var icons = "<div style='display: block;text-align: center;'>" + 
-	"<span class='updatePatient glyphicon glyphicon-pencil' aria-hidden='true' style='margin-right: 15%;'></span>" + 
-	"<span class='archiveData glyphicon glyphicon-trash' aria-hidden='true'></span>" + 
-	"</div>"
+function setPatientToDataTable(){
+	patientTable = $('#patientRecords').DataTable( {
+		columns: [
+		{title: "#"},
+		{title: "First Name"},
+		{title: "Last Name"},
+		{title: "Age"},
+		{title: "Phone Contact"},
+		{title: ""}
+		]
+	} );
+}
 
-	return icons;
+function updatePatient(){
+	$("#patientRecords tbody").on('click', '.updatePatient' , function(){
+		var closestRow = $(this).closest('tr');
+		data = patientTable.row(closestRow).data();
+		var taskID = data;
+		$('#addPatient').modal('toggle');
+		setPatientData(data);
+	});
 }
 
 function setPatientData(patientValue){
