@@ -15,16 +15,15 @@ $(document).ready(function() {
 	$('#btnAddPatient').on('click', function(){
 		if(data == null){
 			alert("add");
-			$.post("/v1/addpatient", sendPatientInfo())
+			$.post("/v1/addpatient",{patient_data : JSON.stringify(sendPatientInfo())})
 			.done(function(data){
-				console.log( JSON.stringify(data.status));
+				console.log(data);
 				getPatientFromServer();
 				$(".modal .close").click();
-
 			});
 		} else {
 			alert("update");
-			$.post("/v1/updatepatient", sendPatientInfo())
+			$.post("/v1/updatepatient", JSON.stringify(sendPatientInfo()))
 			.done(function(data){
 				alert(data);
 				console.log( JSON.stringify(sendPatientInfo()));
@@ -139,7 +138,7 @@ function sendPatientInfo(){
 	sendPatientObject["email_address"] = $('#email').val();
 	sendPatientObject["primary_contact"] = $('#primary').val();
 	sendPatientObject["secondary_contact"] = $('#secondary').val();
-	sendPatientDataArray["patient_data"] = JSON.stringify(sendPatientObject);
-
+	// sendPatientDataArray["patient_data"] = JSON.stringify(sendPatientObject);
+	sendPatientDataArray["data"] = sendPatientObject;
 	return sendPatientDataArray;
 }
