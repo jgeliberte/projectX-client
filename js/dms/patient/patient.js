@@ -17,7 +17,8 @@ $(document).ready(function() {
 			$.post("/v1/addpatient", sendPatientInfo())
 			.done(function(data){
 				console.log( JSON.stringify(data.status));
-				getPatientFromServer()
+				getPatientFromServer();
+				$(".modal .close").click();
 
 			});
 		} else {
