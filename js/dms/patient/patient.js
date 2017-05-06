@@ -16,17 +16,18 @@ $(document).ready(function() {
 			$.post("/v1/addpatient",{patient_data : JSON.stringify(sendPatientInfo())})
 			.done(function(data){
 				console.log(data);
+				getPatientFromServer();
+				$(".modal .close").click();
 			});
 		} else {
 			$.post("/v1/updatepatient",{patient_data : JSON.stringify(sendPatientInfo())})
 			.done(function(data){
 				alert(data);
 				console.log( JSON.stringify(sendPatientInfo()));
-
+				getPatientFromServer();
+				$(".modal .close").click();
 			});
 		}
-		getPatientFromServer();
-		$(".modal .close").click();
 	});
 	
 
@@ -120,6 +121,7 @@ function setPatientData(patientValue){
 	$('#primary').val(patientValue[4]);
 	$('#secondary').val(patientValue[10]);
 	$("input[name=gender][value=" + patientValue[7] + "]").prop('checked', true);
+	//$("#birthdate").datepicker();
 }
 
 function sendPatientInfo(){
