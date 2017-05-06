@@ -139,6 +139,6 @@ function sendPatientInfo(){
 	sendPatientObject["primary_contact"] = $('#primary').val();
 	sendPatientObject["secondary_contact"] = $('#secondary').val();
 	// sendPatientDataArray["patient_data"] = JSON.stringify(sendPatientObject);
-	sendPatientDataArray["data"] = sendPatientObject;
-	return sendPatientDataArray;
+	// sendPatientDataArray["data"] = sendPatientObject;
+	return sendPatientObject;
 }
