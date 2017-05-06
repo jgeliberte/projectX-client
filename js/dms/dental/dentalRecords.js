@@ -2,8 +2,8 @@ $(document).ready(function() {
 	var patientDentalJsonResult = [];
 	var patientDentalDataset = [];
 	var sendPatientDataArray = {};
-	$('#patientMenu').click(function(){
-		window.location = '/v1/patient';
+	$('#dentalMenu').click(function(){
+		window.location = '/v1/dentalrecords';
 	});
 	//$('#patientMenu').load(
 	$.getJSON("/v1/fetchallpatient", function(data){
@@ -17,7 +17,7 @@ $(document).ready(function() {
 						patientDentalJsonResult.push(i + 1);
 						patientDentalJsonResult.push(value[i].firstname);
 						patientDentalJsonResult.push(value[i].lastname);
-						patientDentalJsonResult.push(value[i].age);
+						patientDentalJsonResult.push(value[i].birthdate);
 						patientDentalJsonResult.push(value[i].primary_contact);
 						patientDentalJsonResult.push(appendPatientIcons());
 						patientDentalJsonResult.push(value[i].middlename);
@@ -36,13 +36,13 @@ $(document).ready(function() {
 		};
 		console.log(patientDentalDataset);
             //$('#patient_records').attr("href", 'v1/patient');
-            var patientTable = $('#dentalRecords').DataTable( {
+            var dentalTable = $('#dentalRecords').DataTable( {
             	data: patientDentalDataset,
             	columns: [
             	{title: "#"},
             	{title: "First Name"},
             	{title: "Last Name"},
-            	{title: "Age"},
+            	{title: "BirthDate"},
             	{title: "Phone Contact"},
             	{title: ""}
             	]

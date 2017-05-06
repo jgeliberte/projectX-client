@@ -1,5 +1,4 @@
 var patientJsonResult = [];
-var patientDataset = [];
 var patientTable;
 var data = null;
 var patientId = "";
@@ -14,15 +13,11 @@ $(document).ready(function() {
 
 	$('#btnAddPatient').on('click', function(){
 		if(data == null){
-			alert("add");
 			$.post("/v1/addpatient",{patient_data : JSON.stringify(sendPatientInfo())})
 			.done(function(data){
 				console.log(data);
-				getPatientFromServer();
-				$(".modal .close").click();
 			});
 		} else {
-			alert("update");
 			$.post("/v1/updatepatient",{patient_data : JSON.stringify(sendPatientInfo())})
 			.done(function(data){
 				alert(data);
@@ -30,6 +25,8 @@ $(document).ready(function() {
 
 			});
 		}
+		getPatientFromServer();
+		$(".modal .close").click();
 	});
 	
 
@@ -49,6 +46,7 @@ function appendPatientIcons() {
 }
 
 function getPatientFromServer(){
+	var patientDataset = [];
 	$.getJSON("/v1/fetchallpatient", function(data){
 		for (var key in data) {
 			if(data.hasOwnProperty(key)){
@@ -84,7 +82,7 @@ function getPatientFromServer(){
 		patientTable.draw();
 
 		updatePatient();
-});
+	});
 }
 
 function setPatientToDataTable(){
@@ -96,7 +94,8 @@ function setPatientToDataTable(){
 		{title: "Birthdate"},
 		{title: "Phone Contact"},
 		{title: ""}
-		]
+		],
+		"deferRender": true
 	} );
 }
 
@@ -105,7 +104,7 @@ function updatePatient(){
 		var closestRow = $(this).closest('tr');
 		data = patientTable.row(closestRow).data();
 		var taskID = data;
-		$('#addPatient').modal('toggle');
+		$('#addPatient').modal('show');
 		setPatientData(data);
 	});
 }
@@ -115,13 +114,12 @@ function setPatientData(patientValue){
 	$('#firstName').val(patientValue[1]);
 	$('#middleName').val(patientValue[6]);
 	$('#lastName').val(patientValue[2]);
-	$('#age').val(patientValue[3]);
+	$('#birthdate').val(patientValue[3]);
 	$('#address').val(patientValue[8]);
 	$('#email').val(patientValue[9]);
 	$('#primary').val(patientValue[4]);
 	$('#secondary').val(patientValue[10]);
 	$("input[name=gender][value=" + patientValue[7] + "]").prop('checked', true);
-
 }
 
 function sendPatientInfo(){
