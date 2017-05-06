@@ -23,7 +23,7 @@ $(document).ready(function() {
 			});
 		} else {
 			alert("update");
-			$.post("/v1/updatepatient", JSON.stringify(sendPatientInfo()))
+			$.post("/v1/updatepatient",{patient_data : JSON.stringify(sendPatientInfo())})
 			.done(function(data){
 				alert(data);
 				console.log( JSON.stringify(sendPatientInfo()));
@@ -60,7 +60,7 @@ function getPatientFromServer(){
 						patientJsonResult.push(i + 1);
 						patientJsonResult.push(value[i].firstname);
 						patientJsonResult.push(value[i].lastname);
-						patientJsonResult.push(value[i].age);
+						patientJsonResult.push(value[i].birthdate);
 						patientJsonResult.push(value[i].primary_contact);
 						patientJsonResult.push(appendPatientIcons());
 						patientJsonResult.push(value[i].middlename);
@@ -93,7 +93,7 @@ function setPatientToDataTable(){
 		{title: "#"},
 		{title: "First Name"},
 		{title: "Last Name"},
-		{title: "Age"},
+		{title: "Birthdate"},
 		{title: "Phone Contact"},
 		{title: ""}
 		]
