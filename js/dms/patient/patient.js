@@ -24,8 +24,8 @@ $(document).ready(function() {
 			});
 		} else {
 			$.post("/v1/updatepatient",{patient_data : JSON.stringify(sendPatientInfo())})
-			.done(function(data){
-				alert(data.status);
+			.done(function(data, status){
+				alert(status);
 				console.log( JSON.stringify(sendPatientInfo()));
 				getPatientFromServer();
 				$(".modal .close").click();
@@ -86,7 +86,7 @@ function getPatientFromServer(){
 		patientTable.clear();
 		patientTable.rows.add(patientDataset);
 		patientTable.draw();
-		
+
 		updatePatient();
 
 	});

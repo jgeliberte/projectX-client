@@ -19,20 +19,21 @@ $(document).ready(function() {
 				var dataParse = JSON.stringify(value);
 				for (var i = 0; i < value.length; i++) {
 					if(value[i].firstname != null){
-						patientDentalJsonResult.push(i + 1);
-						patientDentalJsonResult.push(value[i].firstname);
-						patientDentalJsonResult.push(value[i].lastname);
-						patientDentalJsonResult.push(value[i].birthdate);
-						patientDentalJsonResult.push(value[i].primary_contact);
-						patientDentalJsonResult.push(appendDentalPatientIcons());
-						patientDentalJsonResult.push(value[i].middlename);
-						patientDentalJsonResult.push(value[i].gender);
-						patientDentalJsonResult.push(value[i].address);
-						patientDentalJsonResult.push(value[i].email_address);
-						patientDentalJsonResult.push(value[i].secondary_contact);
-						patientDentalDataset.push(patientDentalJsonResult);
-						patientDentalJsonResult = [];
-
+						if(value[i].status == 1){
+							patientDentalJsonResult.push(i + 1);
+							patientDentalJsonResult.push(value[i].firstname);
+							patientDentalJsonResult.push(value[i].lastname);
+							patientDentalJsonResult.push(value[i].birthdate);
+							patientDentalJsonResult.push(value[i].primary_contact);
+							patientDentalJsonResult.push(appendDentalPatientIcons());
+							patientDentalJsonResult.push(value[i].middlename);
+							patientDentalJsonResult.push(value[i].gender);
+							patientDentalJsonResult.push(value[i].address);
+							patientDentalJsonResult.push(value[i].email_address);
+							patientDentalJsonResult.push(value[i].secondary_contact);
+							patientDentalDataset.push(patientDentalJsonResult);
+							patientDentalJsonResult = [];
+						}
 					}
 				}
 				console.log("Data: " + dataParse);
@@ -73,7 +74,7 @@ function addDental(){
 		var closestRow = $(this).closest('tr');
 		data = dentalTable.row(closestRow).data();
 		$('#addDental').modal('show');
-		$('#patientName').text(data[2] + ", " + data[1] +" "+ data[6]);
+		$('#patientName').text(data[2].toUpperCase() + ", " + data[1].toUpperCase() +" "+ data[6].toUpperCase());
 		$('#gender').text(data[7]);
 		$('#primary').text(data[4]);
 	});
@@ -84,7 +85,7 @@ function previewDentalActivity(){
 		var closestRow = $(this).closest('tr');
 		previewData = dentalTable.row(closestRow).data();
 		$('#previewDental').modal('show');
-		$('#patientName2').text(previewData[2] + ", " + previewData[1] +" "+ previewData[6]);
+		$('#patientName2').text(previewData[2].toUpperCase() + ", " + previewData[1].toUpperCase() +" "+ previewData[6].toUpperCase());
 		$('#gender2').text(previewData[7]);
 		$('#primary2').text(previewData[4]);
 		//setDentalData(previewData);

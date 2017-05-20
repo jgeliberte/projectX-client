@@ -11,7 +11,7 @@ function initializeServiceDataTable(){
 		{title: "Code"},
 		{title: "Name"},
 		{title: "Description"},
-		{title: "Price"}
+		{title: "Fee"}
 		]
 	} );
 }
