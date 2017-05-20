@@ -2,6 +2,7 @@ var patientJsonResult = [];
 var patientTable;
 var data = null;
 var patientId = "";
+var patientNum = 1;
 
 $(document).ready(function() {
 
@@ -16,9 +17,9 @@ $(document).ready(function() {
 	$('#btnAddPatient').on('click', function(){
 		if(data == null){
 			$.post("/v1/addpatient",{patient_data : JSON.stringify(sendPatientInfo())})
-			.done(function(data){
-				var status = JSON.stringify(data);
-				alert(data.status);
+			.done(function(data, status){
+				//var status = JSON.stringify(data);
+				alert(status);
 				getPatientFromServer();
 				$(".modal .close").click();
 			});
@@ -60,7 +61,7 @@ function getPatientFromServer(){
 				for (var i = 0; i < value.length; i++) {
 					if(value[i].firstname != null){
 						if(value[i].status == 1){
-							patientJsonResult.push(i + 1);
+							patientJsonResult.push(patientNum);
 							patientJsonResult.push(value[i].firstname);
 							patientJsonResult.push(value[i].lastname);
 							patientJsonResult.push(value[i].birthdate);
@@ -75,6 +76,7 @@ function getPatientFromServer(){
 							patientJsonResult.push(value[i].status);
 							patientDataset.push(patientJsonResult);
 							patientJsonResult = [];
+							patientNum++;
 						}
 					}
 				}
@@ -94,9 +96,9 @@ function getPatientFromServer(){
 
 function deletePatientFromServer(patientDBId){
 	$.post("/v1/archivepatient",{patient_id : JSON.stringify(patientDBId)})
-	.done(function(data){
+	.done(function(data, status){
 		var status = JSON.stringify(data);
-		alert(data);
+		alert(status);
 		getPatientFromServer();
 	});
 }
@@ -130,9 +132,9 @@ function deletePatient(){
 		var closestRow = $(this).closest('tr');
 		data = patientTable.row(closestRow).data();
 		if (confirm("Do you want to delete?")) {
-        deletePatientFromServer(data[11]);
-    }
-    return false;
+			deletePatientFromServer(data[11]);
+		}
+		return false;
 		
 	});
 }
@@ -162,9 +164,17 @@ function sendPatientInfo(){
 	sendPatientObject["birthdate"] = $('#birthdate').val();
 	sendPatientObject["gender"] =  $('input[name=gender]:checked').val();
 	sendPatientObject["address"] = $('#address').val();
-	sendPatientObject["email_address"] = $('#email').val();
+	if($('#email').val() == "") {
+		sendPatientObject["email_address"] = "";
+	} else {
+		sendPatientObject["email_address"] = $('#email').val();
+	}
 	sendPatientObject["primary_contact"] = $('#primary').val();
-	sendPatientObject["secondary_contact"] = $('#secondary').val();
+	if($('#email').val() == "") {
+		sendPatientObject["secondary_contact"] = "";
+	} else {
+		sendPatientObject["secondary_contact"] = $('#secondary').val();
+	}
 	// sendPatientDataArray["patient_data"] = JSON.stringify(sendPatientObject);
 	// sendPatientDataArray["data"] = sendPatientObject;
 	return sendPatientObject;

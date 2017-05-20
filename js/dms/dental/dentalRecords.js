@@ -2,6 +2,7 @@ var patientDentalJsonResult = [];
 var patientDentalDataset = [];
 var dentalTable;
 var dentalActivityTable;
+var dentalNum = 1;
 
 $(document).ready(function() {
 	$('#dentalMenu').click(function(){
@@ -20,7 +21,7 @@ $(document).ready(function() {
 				for (var i = 0; i < value.length; i++) {
 					if(value[i].firstname != null){
 						if(value[i].status == 1){
-							patientDentalJsonResult.push(i + 1);
+							patientDentalJsonResult.push(dentalNum);
 							patientDentalJsonResult.push(value[i].firstname);
 							patientDentalJsonResult.push(value[i].lastname);
 							patientDentalJsonResult.push(value[i].birthdate);
@@ -33,6 +34,7 @@ $(document).ready(function() {
 							patientDentalJsonResult.push(value[i].secondary_contact);
 							patientDentalDataset.push(patientDentalJsonResult);
 							patientDentalJsonResult = [];
+							dentalNum++;
 						}
 					}
 				}
