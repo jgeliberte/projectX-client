@@ -129,7 +129,11 @@ function deletePatient(){
 	$("#patientRecords tbody").on('click', '.archiveData' , function(){
 		var closestRow = $(this).closest('tr');
 		data = patientTable.row(closestRow).data();
-		deletePatientFromServer(data[11]);
+		if (confirm("Do you want to delete?")) {
+        deletePatientFromServer(data[11]);
+    }
+    return false;
+		
 	});
 }
 
