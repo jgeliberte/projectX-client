@@ -11,6 +11,7 @@ $(document).ready(function() {
 
 	initializeDataTable();
 	getPatientFromServer();
+	deletePatient();
 
 	$('#btnAddPatient').on('click', function(){
 		if(data == null){
@@ -58,33 +59,45 @@ function getPatientFromServer(){
 				var dataParse = JSON.stringify(value);
 				for (var i = 0; i < value.length; i++) {
 					if(value[i].firstname != null){
-						patientJsonResult.push(i + 1);
-						patientJsonResult.push(value[i].firstname);
-						patientJsonResult.push(value[i].lastname);
-						patientJsonResult.push(value[i].birthdate);
-						patientJsonResult.push(value[i].primary_contact);
-						patientJsonResult.push(appendPatientIcons());
-						patientJsonResult.push(value[i].middlename);
-						patientJsonResult.push(value[i].gender);
-						patientJsonResult.push(value[i].address);
-						patientJsonResult.push(value[i].email_address);
-						patientJsonResult.push(value[i].secondary_contact);
-						patientJsonResult.push(value[i].id);
-						patientDataset.push(patientJsonResult);
-						patientJsonResult = [];
-
+						if(value[i].status == 1){
+							patientJsonResult.push(i + 1);
+							patientJsonResult.push(value[i].firstname);
+							patientJsonResult.push(value[i].lastname);
+							patientJsonResult.push(value[i].birthdate);
+							patientJsonResult.push(value[i].primary_contact);
+							patientJsonResult.push(appendPatientIcons());
+							patientJsonResult.push(value[i].middlename);
+							patientJsonResult.push(value[i].gender);
+							patientJsonResult.push(value[i].address);
+							patientJsonResult.push(value[i].email_address);
+							patientJsonResult.push(value[i].secondary_contact);
+							patientJsonResult.push(value[i].id);
+							patientJsonResult.push(value[i].status);
+							patientDataset.push(patientJsonResult);
+							patientJsonResult = [];
+						}
 					}
 				}
 				console.log("Data: " + dataParse);
 				console.log("array :" + patientJsonResult);
 			}
 		};
-		console.log(patientDataset);
+		console.log(patientDataset.status);
 		patientTable.clear();
 		patientTable.rows.add(patientDataset);
 		patientTable.draw();
-
+		
 		updatePatient();
+
+	});
+}
+
+function deletePatientFromServer(patientDBId){
+	$.post("/v1/archivepatient",{patient_id : JSON.stringify(patientDBId)})
+	.done(function(data){
+		var status = JSON.stringify(data);
+		alert(data);
+		getPatientFromServer();
 	});
 }
 
@@ -109,6 +122,14 @@ function updatePatient(){
 		var taskID = data;
 		$('#addPatient').modal('show');
 		setPatientData(data);
+	});
+}
+
+function deletePatient(){
+	$("#patientRecords tbody").on('click', '.archiveData' , function(){
+		var closestRow = $(this).closest('tr');
+		data = patientTable.row(closestRow).data();
+		deletePatientFromServer(data[11]);
 	});
 }
 
