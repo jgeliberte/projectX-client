@@ -1,10 +1,15 @@
+var patientDentalJsonResult = [];
+var patientDentalDataset = [];
+var dentalTable;
+var dentalActivityTable;
+
 $(document).ready(function() {
-	var patientDentalJsonResult = [];
-	var patientDentalDataset = [];
-	var sendPatientDataArray = {};
 	$('#dentalMenu').click(function(){
 		window.location = '/v1/dentalrecords';
 	});
+
+	initializeDentalActivityTable();
+
 	//$('#patientMenu').load(
 	$.getJSON("/v1/fetchallpatient", function(data){
 		for (var key in data) {
@@ -19,7 +24,7 @@ $(document).ready(function() {
 						patientDentalJsonResult.push(value[i].lastname);
 						patientDentalJsonResult.push(value[i].birthdate);
 						patientDentalJsonResult.push(value[i].primary_contact);
-						patientDentalJsonResult.push(appendPatientIcons());
+						patientDentalJsonResult.push(appendDentalPatientIcons());
 						patientDentalJsonResult.push(value[i].middlename);
 						patientDentalJsonResult.push(value[i].gender);
 						patientDentalJsonResult.push(value[i].address);
@@ -35,44 +40,69 @@ $(document).ready(function() {
 			}
 		};
 		console.log(patientDentalDataset);
-            //$('#patient_records').attr("href", 'v1/patient');
-            var dentalTable = $('#dentalRecords').DataTable( {
-            	data: patientDentalDataset,
-            	columns: [
-            	{title: "#"},
-            	{title: "First Name"},
-            	{title: "Last Name"},
-            	{title: "BirthDate"},
-            	{title: "Phone Contact"},
-            	{title: ""}
-            	]
-            } );
 
-        });
+		dentalTable = $('#dentalRecords').DataTable( {
+			data: patientDentalDataset,
+			columns: [
+			{title: "#"},
+			{title: "First Name"},
+			{title: "Last Name"},
+			{title: "BirthDate"},
+			{title: "Phone Contact"},
+			{title: ""}
+			]
+		} );
+
+		addDental();
+		previewDentalActivity();
+	});
 
 });
 
-function appendPatientIcons() {
+function appendDentalPatientIcons() {
 	var icons = "<div style='display: block;text-align: center;'>" + 
-	"<span class='updatePatient glyphicon glyphicon-pencil' aria-hidden='true' style='margin-right: 15%;'></span>" + 
-	"<span class='archiveData glyphicon glyphicon-trash' aria-hidden='true'></span>" + 
+	"<i class='addRecords fa fa-plus-square ' aria-hidden='true' style='margin-right: 15%;'></i>" +
+	"<i class='previewDental fa fa-eye' aria-hidden='true'></i>" +
 	"</div>"
 
 	return icons;
 }
 
-// function setPatientData(patientValue){
-// 	$('#firstName').val(patientValue[1]);
-// 	$('#middleName').val(patientValue[6]);
-// 	$('#lastName').val(patientValue[2]);
-// 	$('#age').val(patientValue[3]);
-// 	$('#address').val(patientValue[8]);
-// 	$('#email').val(patientValue[9]);
-// 	$('#primary').val(patientValue[4]);
-// 	$('#secondary').val(patientValue[10]);
-// 	$("input[name=gender][value=" + patientValue[7] + "]").prop('checked', true);
+function addDental(){
+	$("#dentalRecords tbody").on('click', '.addRecords' , function(){
+		var closestRow = $(this).closest('tr');
+		data = dentalTable.row(closestRow).data();
+		$('#addDental').modal('show');
+		$('#patientName').text(data[2] + ", " + data[1] +" "+ data[6]);
+		$('#gender').text(data[7]);
+		$('#primary').text(data[4]);
+	});
+}
 
-// }
+function previewDentalActivity(){
+	$("#dentalRecords tbody").on('click', '.previewDental' , function(){
+		var closestRow = $(this).closest('tr');
+		previewData = dentalTable.row(closestRow).data();
+		$('#previewDental').modal('show');
+		$('#patientName2').text(previewData[2] + ", " + previewData[1] +" "+ previewData[6]);
+		$('#gender2').text(previewData[7]);
+		$('#primary2').text(previewData[4]);
+		//setDentalData(previewData);
+	});
+}
+
+function initializeDentalActivityTable(){
+	dentalActivityTable = $('#dentalActivities').DataTable( {
+		columns: [
+		{title: "#"},
+		{title: "Services"},
+		{title: "Date"},
+		{title: "Price"},
+		{title: "Remarks"},
+		{title: ""}
+		]
+	} );
+}
 
 // function sendPatientInfo(){
 // 	var sendPatientDataFirstArray = [];

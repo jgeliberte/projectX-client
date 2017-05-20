@@ -4,25 +4,27 @@ var data = null;
 var patientId = "";
 
 $(document).ready(function() {
+
 	$('#patientMenu').click(function(){
 		window.location = '/v1/patient';
 	});
 
-	setPatientToDataTable();
+	initializeDataTable();
 	getPatientFromServer();
 
 	$('#btnAddPatient').on('click', function(){
 		if(data == null){
 			$.post("/v1/addpatient",{patient_data : JSON.stringify(sendPatientInfo())})
 			.done(function(data){
-				console.log(data);
+				var status = JSON.stringify(data);
+				alert(data.status);
 				getPatientFromServer();
 				$(".modal .close").click();
 			});
 		} else {
 			$.post("/v1/updatepatient",{patient_data : JSON.stringify(sendPatientInfo())})
 			.done(function(data){
-				alert(data);
+				alert(data.status);
 				console.log( JSON.stringify(sendPatientInfo()));
 				getPatientFromServer();
 				$(".modal .close").click();
@@ -86,7 +88,7 @@ function getPatientFromServer(){
 	});
 }
 
-function setPatientToDataTable(){
+function initializeDataTable(){
 	patientTable = $('#patientRecords').DataTable( {
 		columns: [
 		{title: "#"},
@@ -120,8 +122,8 @@ function setPatientData(patientValue){
 	$('#email').val(patientValue[9]);
 	$('#primary').val(patientValue[4]);
 	$('#secondary').val(patientValue[10]);
-	$("input[name=gender][value=" + patientValue[7] + "]").prop('checked', true);
-	//$("#birthdate").datepicker();
+	//$("input[name=gender][value=" + patientValue[7] + "]").prop('checked', true);
+	$("input[name=gender][value=" + patientValue[7] + "]").click();
 }
 
 function sendPatientInfo(){
