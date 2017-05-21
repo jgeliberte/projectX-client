@@ -9,7 +9,6 @@ $(document).ready(function() {
 
 	$("#btnAddService").on("click", function(){
 		addDentalService();
-		getDentalService();
 	});
 
 });
@@ -20,7 +19,8 @@ function initializeServiceDataTable(){
 		{title: "#"},
 		{title: "Name"},
 		{title: "Fee"},
-		{title: "Date Created"}
+		{title: "Date Created"},
+		{title: ""}
 		]
 	} );
 }
@@ -39,6 +39,7 @@ function getDentalService(){
 						dentalServiceResult.push(value[i].service_name);
 						dentalServiceResult.push(value[i].service_fee);
 						dentalServiceResult.push(value[i].date_created);
+						dentalServiceResult.push(appendDentalServiceIcons());
 						dentalDataSet.push(dentalServiceResult);
 						dentalServiceResult = [];
 						dentalServiceNum++;
@@ -55,19 +56,26 @@ function getDentalService(){
 	});
 }
 
+function appendDentalServiceIcons() {
+	var icons = "<div style='display: block;text-align: center;'>" + 
+	"<span class='updateService glyphicon glyphicon-pencil' aria-hidden='true' style='margin-right: 15%;'></span>" +
+	"<span class='archiveService glyphicon glyphicon-trash' aria-hidden='true'></span>" +
+	"</div>"
+
+	return icons;
+}
+
 function addDentalService(){
 	$.post("/v1/addservice",{service_data : JSON.stringify(sendDentalServiceInfo())})
 	.done(function(data, status){
-				//var status = JSON.stringify(data);
 				alert(data);
-				//getPatientFromServer();
 				$(".modal .close").click();
+				getDentalService();
 			});
 }
 
 function sendDentalServiceInfo(){
 	var dentalService = {};
-	dentalService["idservices"] = "3";
 	dentalService["service_name"] = $("#serviceName").val();
 	dentalService["service_fee"] =  $("#fee").val();
 	dentalService["date_created"] = "2017-01-02";

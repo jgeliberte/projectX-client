@@ -3,6 +3,7 @@ var patientDentalDataset = [];
 var dentalTable;
 var dentalActivityTable;
 var dentalNum = 1;
+var dentalServiceResult = [];
 
 $(document).ready(function() {
 	$('#dentalMenu').click(function(){
@@ -10,6 +11,7 @@ $(document).ready(function() {
 	});
 
 	initializeDentalActivityTable();
+	getDentalServiceRecords();
 
 	//$('#patientMenu').load(
 	$.getJSON("/v1/fetchallpatient", function(data){
@@ -79,6 +81,29 @@ function addDental(){
 		$('#patientName').text(data[2].toUpperCase() + ", " + data[1].toUpperCase() +" "+ data[6].toUpperCase());
 		$('#gender').text(data[7]);
 		$('#primary').text(data[4]);
+		
+	});
+}
+
+function getDentalServiceRecords(){
+	var dentalDataSet = [];
+	$.getJSON("/v1/getallservices", function(data){
+		for (var key in data) {
+			if(data.hasOwnProperty(key)){
+				var value = data[key];
+				console.log(value);
+			}
+		};
+		appendService(value);
+	});
+}
+
+function appendService(json){
+	$.each(json, function () {
+		$("#serviceIdDiv").append($("<div class='col-md-9'><div class='checkbox' style='display:flex;'>" + 
+			"<label style='margin-right: 1%;'><input type='checkbox' value='"+this.idservices+"'>" +this.service_name+ "</label>" + 
+			"<div class='input-group pesos'style='width:70%;'><span class='input-group-addon'><i class='fa fa-rub' aria-hidden='true'></i></span>"+
+			"<input type='text' class='form-control' id='fee'/></div></div></div>"));
 	});
 }
 
@@ -107,20 +132,3 @@ function initializeDentalActivityTable(){
 	} );
 }
 
-// function sendPatientInfo(){
-// 	var sendPatientDataFirstArray = [];
-// 	var sendPatientDataArray = [];
-// 	var sendPatientObject = {};
-// 	sendPatientObject["firstname"] = $('#firstName').val();
-// 	sendPatientObject["lastname"] =  $('#lastName').val();
-// 	sendPatientObject["middlename"] = $('#middleName').val();
-// 	sendPatientObject["gender"] =  $('input[name=gender]:checked').val();
-// 	sendPatientObject["address"] = $('#address').val(),
-// 	sendPatientObject["email_address"] = $('#email').val(),
-// 	sendPatientObject["primary_contact"] = $('#primary').val(),
-// 	sendPatientObject["secondary_contact"] = $('#secondary').val()
-// 	sendPatientDataFirstArray["patient_data"] = sendPatientObject;
-// 	console.log(sendPatientDataFirstArray);
-
-// 	return JSON.stringify(sendPatientDataFirstArray);
-// }
