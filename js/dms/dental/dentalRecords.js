@@ -115,9 +115,12 @@ function getDentalServiceRecords(){
 
 function appendService(json){
 	$.each(json, function () {
-		$("#serviceIdDiv").append($("<div class='col-md-9'><div class='checkbox' style='display:flex;'>" + 
+		$("#serviceIdDiv").append($("<div class='col-md-4'><div class='checkbox' style='display:flex;'>" + 
 			"<label style='margin-right: 1%;'><input type='checkbox' name='serviceRendered' value='"+this.service_name+"'>" +this.service_name+ "</label>" +
-			"<textarea type='text' class='form-control' id='remarks' placeholder='Remarks'></textarea></div></div>"));
+			"<input type='text' class='form-control' id='remarks' placeholder='Remarks' style='margin-right:1%'/>" + 
+			"<div class='col-sm-9'><div class='input-group pesos'><span class='input-group-addon'><i class='fa fa-rub' aria-hidden='true'></i></span>" +
+			"<input type='text' class='form-control' id='"+this.service_name+"fee'/>" +
+			"</div></div></div></div>"));
 	});
 }
 
