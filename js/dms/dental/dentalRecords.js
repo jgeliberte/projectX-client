@@ -6,10 +6,18 @@ var dentalNum = 1;
 var dentalServiceResult = [];
 
 $(document).ready(function() {
+	var date = new Date();
+	//alert(date);
 	$('#dentalMenu').click(function(){
 		window.location = '/v1/dentalrecords';
 	});
 
+	$('#btnAddActivity').click(function(){
+		$('input[name=serviceRendered]:checked').each(function(){
+			alert($(this).val());
+		});
+		
+	});
 	initializeDentalActivityTable();
 	getDentalServiceRecords();
 
@@ -81,8 +89,15 @@ function addDental(){
 		$('#patientName').text(data[2].toUpperCase() + ", " + data[1].toUpperCase() +" "+ data[6].toUpperCase());
 		$('#gender').text(data[7]);
 		$('#primary').text(data[4]);
+		checkBoxIsChecked();
 		
 	});
+}
+
+function checkBoxIsChecked(){
+	if ( $("input[name=serviceRendered]").is( ":checked" ) ){
+		alert("checked");
+	}
 }
 
 function getDentalServiceRecords(){
@@ -101,9 +116,8 @@ function getDentalServiceRecords(){
 function appendService(json){
 	$.each(json, function () {
 		$("#serviceIdDiv").append($("<div class='col-md-9'><div class='checkbox' style='display:flex;'>" + 
-			"<label style='margin-right: 1%;'><input type='checkbox' value='"+this.idservices+"'>" +this.service_name+ "</label>" + 
-			"<div class='input-group pesos'style='width:70%;'><span class='input-group-addon'><i class='fa fa-rub' aria-hidden='true'></i></span>"+
-			"<input type='text' class='form-control' id='fee'/></div></div></div>"));
+			"<label style='margin-right: 1%;'><input type='checkbox' name='serviceRendered' value='"+this.service_name+"'>" +this.service_name+ "</label>" +
+			"<textarea type='text' class='form-control' id='remarks' placeholder='Remarks'></textarea></div></div>"));
 	});
 }
 
