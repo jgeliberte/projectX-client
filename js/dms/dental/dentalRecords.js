@@ -4,6 +4,9 @@ var dentalTable;
 var dentalActivityTable;
 var dentalNum = 1;
 var dentalServiceResult = [];
+var inputId;
+var serviceFee = [];
+var value = "";
 
 $(document).ready(function() {
 	var date = new Date();
@@ -13,11 +16,14 @@ $(document).ready(function() {
 	});
 
 	$('#btnAddActivity').click(function(){
-		$('input[name=serviceRendered]:checked').each(function(){
-			alert($(this).val());
-		});
+		//$('input[name=serviceRendered]:checked').each(function(){
+			sendDentalServiceActivity();
+			$(".modal .close").click();
+			$('input[type=checkbox]').attr('checked',false);
+		//});
 		
 	});
+
 	initializeDentalActivityTable();
 	getDentalServiceRecords();
 
@@ -42,6 +48,7 @@ $(document).ready(function() {
 							patientDentalJsonResult.push(value[i].address);
 							patientDentalJsonResult.push(value[i].email_address);
 							patientDentalJsonResult.push(value[i].secondary_contact);
+							patientDentalJsonResult.push(value[i].id);
 							patientDentalDataset.push(patientDentalJsonResult);
 							patientDentalJsonResult = [];
 							dentalNum++;
@@ -69,8 +76,21 @@ $(document).ready(function() {
 		addDental();
 		previewDentalActivity();
 	});
-
 });
+
+function sendDentalServiceActivity(){
+	var sendDentalObject = {};
+
+	for(var i = 0; i < serviceFee.length; i++){
+		alert(serviceFee[i]);
+	// 	sendDentalObject["patient_fk_id"] = dental[11];
+	// sendDentalObject["service_rendered"] = serviceFee[i];
+	// sendDentalObject["date_rendered"]
+	// sendDentalObject["fee_rendered"]
+	// sendDentalObject["remarks_rendered"]
+	}
+	
+}
 
 function appendDentalPatientIcons() {
 	var icons = "<div style='display: block;text-align: center;'>" + 
@@ -89,15 +109,33 @@ function addDental(){
 		$('#patientName').text(data[2].toUpperCase() + ", " + data[1].toUpperCase() +" "+ data[6].toUpperCase());
 		$('#gender').text(data[7]);
 		$('#primary').text(data[4]);
-		checkBoxIsChecked();
+		
+		checkBoxIsChecked(value);
 		
 	});
 }
 
-function checkBoxIsChecked(){
-	if ( $("input[name=serviceRendered]").is( ":checked" ) ){
-		alert("checked");
-	}
+function checkBoxIsChecked(json){
+	$('.checkbox').on("change", ":checkbox", function () {
+		var valueId = this.value;
+		var isChecked = this.checked;
+		$.each(json, function () {
+			if (isChecked) {
+				if(valueId == this.service_name){
+					console.log(inputId + ' is checked');
+					$("#"+this.service_fee).prop('disabled', false);
+					$("#"+this.service_fee).val(this.service_fee);
+					serviceFee.push(this.service_fee);
+				}
+			} else {
+				if(valueId == this.service_name){
+					$("#"+this.service_fee).prop('disabled', true);
+					$("#"+this.service_fee).val('');
+				}
+			}
+		});
+		
+	});
 }
 
 function getDentalServiceRecords(){
@@ -105,21 +143,24 @@ function getDentalServiceRecords(){
 	$.getJSON("/v1/getallservices", function(data){
 		for (var key in data) {
 			if(data.hasOwnProperty(key)){
-				var value = data[key];
+				value = data[key];
 				console.log(value);
 			}
 		};
 		appendService(value);
+		
 	});
 }
 
 function appendService(json){
 	$.each(json, function () {
-		$("#serviceIdDiv").append($("<div class='col-md-4'><div class='checkbox' style='display:flex;'>" + 
+		inputId = this.service_fee;
+		//inputId = inputId.replace(/ /g, '');
+		$("#serviceIdDiv").append($("<div class='col-md-9'><div class='checkbox' style='display:flex;'>" + 
 			"<label style='margin-right: 1%;'><input type='checkbox' name='serviceRendered' value='"+this.service_name+"'>" +this.service_name+ "</label>" +
 			"<input type='text' class='form-control' id='remarks' placeholder='Remarks' style='margin-right:1%'/>" + 
-			"<div class='col-sm-9'><div class='input-group pesos'><span class='input-group-addon'><i class='fa fa-rub' aria-hidden='true'></i></span>" +
-			"<input type='text' class='form-control' id='"+this.service_name+"fee'/>" +
+			"<div class='col-md-6'><div class='input-group pesos'><span class='input-group-addon'><i class='fa fa-rub' aria-hidden='true'></i></span>" +
+			"<input type='text' class='form-control' id='"+inputId+"' disabled/>" +
 			"</div></div></div></div>"));
 	});
 }
