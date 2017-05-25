@@ -1,14 +1,22 @@
 var serviceTable;
 var dentalServiceResult = [];
 var dentalServiceNum = 1;
+var dentalServiceId;
+var dentalData;
 
 $(document).ready(function() {
 	
 	initializeServiceDataTable();
 	getDentalService();
+	deleteDentalService();
 
 	$("#btnAddService").on("click", function(){
-		addDentalService();
+		if(dentalData != null || dentalData != ""){
+			updateDentalService();
+		} else {
+			addDentalService();
+		}
+		getDentalService();
 	});
 
 });
@@ -40,6 +48,7 @@ function getDentalService(){
 						dentalServiceResult.push(value[i].service_fee);
 						dentalServiceResult.push(value[i].date_created);
 						dentalServiceResult.push(appendDentalServiceIcons());
+						dentalServiceResult.push(value[i].id);
 						dentalDataSet.push(dentalServiceResult);
 						dentalServiceResult = [];
 						dentalServiceNum++;
@@ -52,6 +61,8 @@ function getDentalService(){
 		serviceTable.clear();
 		serviceTable.rows.add(dentalDataSet);
 		serviceTable.draw();
+
+		updateService();
 
 	});
 }
@@ -70,7 +81,14 @@ function addDentalService(){
 	.done(function(data, status){
 				alert(data);
 				$(".modal .close").click();
-				getDentalService();
+			});
+}
+
+function updateDentalService(){
+	$.post("/v1/updateService",{service_data : JSON.stringify(sendDentalServiceInfo())})
+	.done(function(data, status){
+				alert(data);
+				$(".modal .close").click();
 			});
 }
 
@@ -82,4 +100,40 @@ function sendDentalServiceInfo(){
 	dentalService["date_updated"] = "2017-01-02";
 
 	return dentalService;
+}
+
+function updateService(){
+	$("#dentalService tbody").on('click', '.updateService' , function(){
+		var closestRow = $(this).closest('tr');
+		dentalData = serviceTable.row(closestRow).data();
+		$('#addService').modal('show');
+		setDentalService(dentalData);
+	});
+}
+
+function deleteDentalService(){
+	$("#dentalService tbody").on('click', '.archiveService' , function(){
+		var closestRow = $(this).closest('tr');
+		var deletePatientId = serviceTable.row(closestRow).data();
+		if (confirm("Do you want to delete?")) {
+			deleteDentalServiceFromServer(deletePatientId[5]);
+		}
+		return false;
+		
+	});
+}
+
+function setDentalService(serviceValue){
+	dentalServiceId = serviceValue[11];
+	$('#serviceName').val(serviceValue[1]);
+	$('#fee').val(serviceValue[2]);
+}
+
+function deleteDentalServiceFromServer(serviceId){
+	$.post("/v1/archiveservice",{patient_id : JSON.stringify(serviceId)})
+	.done(function(data, status){
+		var status = JSON.stringify(data);
+		alert(status);
+		getPatientFromServer();
+	});
 }
