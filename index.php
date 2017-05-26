@@ -57,7 +57,7 @@ if (defined('ENVIRONMENT'))
  *
  */
 	#$system_path = '../projectX-server/system';
-	$system_path = 'https://dental-management-server.herokuapp.com/system';
+	$system_path = '../system';
 
 /*
  *---------------------------------------------------------------
@@ -74,7 +74,7 @@ if (defined('ENVIRONMENT'))
  *
  */
 	#$application_folder = '../projectX-server/application';
-	$application_folder = 'https://dental-management-server.herokuapp.com/application';
+	$application_folder = '../application';
 
 /*
  * --------------------------------------------------------------------
