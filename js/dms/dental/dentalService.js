@@ -92,16 +92,6 @@ function updateDentalService(){
 			});
 }
 
-function sendDentalServiceInfo(){
-	var dentalService = {};
-	dentalService["service_name"] = $("#serviceName").val();
-	dentalService["service_fee"] =  $("#fee").val();
-	dentalService["date_created"] = "2017-01-02";
-	dentalService["date_updated"] = "2017-01-02";
-
-	return dentalService;
-}
-
 function updateService(){
 	$("#dentalService tbody").on('click', '.updateService' , function(){
 		var closestRow = $(this).closest('tr');
@@ -109,6 +99,12 @@ function updateService(){
 		$('#addService').modal('show');
 		setDentalService(dentalData);
 	});
+}
+
+function setDentalService(serviceValue){
+	dentalServiceId = serviceValue[11];
+	$('#serviceName').val(serviceValue[1]);
+	$('#fee').val(serviceValue[2]);
 }
 
 function deleteDentalService(){
@@ -123,10 +119,14 @@ function deleteDentalService(){
 	});
 }
 
-function setDentalService(serviceValue){
-	dentalServiceId = serviceValue[11];
-	$('#serviceName').val(serviceValue[1]);
-	$('#fee').val(serviceValue[2]);
+function sendDentalServiceInfo(){
+	var dentalService = {};
+	dentalService["service_name"] = $("#serviceName").val();
+	dentalService["service_fee"] =  $("#fee").val();
+	dentalService["date_created"] = getCurentDate();
+	dentalService["date_updated"] = getCurentDate();
+
+	return dentalService;
 }
 
 function deleteDentalServiceFromServer(serviceId){
@@ -137,3 +137,9 @@ function deleteDentalServiceFromServer(serviceId){
 		getPatientFromServer();
 	});
 }
+
+function getCurentDate(){
+	var todayDate = new Date().toISOString().slice(0,10);
+	return todayDate;
+}
+

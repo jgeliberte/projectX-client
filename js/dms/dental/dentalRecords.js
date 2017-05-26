@@ -88,8 +88,8 @@ function sendDentalServiceActivity(){
 	// sendDentalObject["date_rendered"]
 	// sendDentalObject["fee_rendered"]
 	// sendDentalObject["remarks_rendered"]
-	}
-	
+}
+
 }
 
 function appendDentalPatientIcons() {
@@ -110,32 +110,42 @@ function addDental(){
 		$('#gender').text(data[7]);
 		$('#primary').text(data[4]);
 		
-		checkBoxIsChecked(value);
+		displayPopOverOnCheck(value);
 		
 	});
 }
 
-function checkBoxIsChecked(json){
+function displayPopOverOnCheck(json){
 	$('.checkbox').on("change", ":checkbox", function () {
 		var valueId = this.value;
+		var checkId = this.id;
 		var isChecked = this.checked;
 		$.each(json, function () {
-			if (isChecked) {
+			if(isChecked){
 				if(valueId == this.service_name){
-					console.log(inputId + ' is checked');
-					$("#"+this.service_fee).prop('disabled', false);
-					$("#"+this.service_fee).val(this.service_fee);
-					serviceFee.push(this.service_fee);
+					console.log('#' + checkId);
+					$("#"+checkId).popover({ html:true, title: "<b>Quantity:</b> <input type='number' id='quantityTooth' class='form-control'>", content: "<b>Amount:</b> <input type='text' id='serviceFee' class='form-control'/>" });
+					var fee = this.service_fee;
+					$('#quantityTooth').on("change", function(){
+						console.log(this.value);
+						computeFeePerService(this.value, fee);
+					});
+
 				}
-			} else {
+			}else {
 				if(valueId == this.service_name){
-					$("#"+this.service_fee).prop('disabled', true);
-					$("#"+this.service_fee).val('');
+					$("#"+checkId).popover('hide');
 				}
 			}
 		});
 		
 	});
+}
+
+function computeFeePerService(quantity, serviceFee){
+	var totalServiceFee = serviceFee * quantity ;
+	$('#serviceFee').val(totalServiceFee);
+	console.log(totalServiceFee);
 }
 
 function getDentalServiceRecords(){
@@ -156,12 +166,9 @@ function appendService(json){
 	$.each(json, function () {
 		inputId = this.service_fee;
 		//inputId = inputId.replace(/ /g, '');
-		$("#serviceIdDiv").append($("<div class='col-md-9'><div class='checkbox' style='display:flex;'>" + 
-			"<label style='margin-right: 1%;'><input type='checkbox' name='serviceRendered' value='"+this.service_name+"'>" +this.service_name+ "</label>" +
-			"<input type='text' class='form-control' id='remarks' placeholder='Remarks' style='margin-right:1%'/>" + 
-			"<div class='col-md-6'><div class='input-group pesos'><span class='input-group-addon'><i class='fa fa-rub' aria-hidden='true'></i></span>" +
-			"<input type='text' class='form-control' id='"+inputId+"' disabled/>" +
-			"</div></div></div></div>"));
+		$("#serviceIdDiv").append($("<div class='col-md-4'><div class='checkbox'>" + 
+			"<label style='margin-right: 1%;'><input type='checkbox' id='"+this.service_name+"' name='serviceRendered' value='"+this.service_name+"'/>" +this.service_name+ "</label>" +
+			"</div></div>"));
 	});
 }
 
