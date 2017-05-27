@@ -1,3 +1,7 @@
 .headerVerticalCenter{
 	transform: translateY(20%);
 }
+
+#ui-datepicker-div {
+	z-index: 100000 !important;
+}

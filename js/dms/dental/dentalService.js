@@ -77,7 +77,7 @@ function appendDentalServiceIcons() {
 }
 
 function addDentalService(){
-	$.post("/v1/addservice",{service_data : JSON.stringify(sendDentalServiceInfo())})
+	$.post("../v1/addservice",{service_data : JSON.stringify(sendDentalServiceInfo())})
 	.done(function(data, status){
 				alert(data);
 				$(".modal .close").click();
@@ -85,7 +85,7 @@ function addDentalService(){
 }
 
 function updateDentalService(){
-	$.post("/v1/updateService",{service_data : JSON.stringify(sendDentalServiceInfo())})
+	$.post("../v1/updateservice",{service_data : JSON.stringify(sendDentalServiceInfo())})
 	.done(function(data, status){
 				alert(data);
 				$(".modal .close").click();
@@ -130,7 +130,7 @@ function sendDentalServiceInfo(){
 }
 
 function deleteDentalServiceFromServer(serviceId){
-	$.post("/v1/archiveservice",{patient_id : JSON.stringify(serviceId)})
+	$.post("../v1/archiveservice",{patient_id : JSON.stringify(serviceId)})
 	.done(function(data, status){
 		var status = JSON.stringify(data);
 		alert(status);
