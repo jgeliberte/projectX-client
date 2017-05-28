@@ -1,8 +1,4 @@
-var patientJsonResult = [];
-var patientTable;
-var data = null;
 var patientId = "";
-var patientNum = 1;
 
 $(document).ready(function() {
 
@@ -10,27 +6,18 @@ $(document).ready(function() {
 		window.location = '/v1/patient';
 	});
 
+	// patientTable.js file
 	initializeDataTable();
-	getPatientFromServer();
+	// patientService.js file
+	callGetPatientService();
+	// patientTable.js file
 	deletePatient();
 
 	$('#btnAddPatient').on('click', function(){
 		if(data == null){
-			$.post("/v1/addpatient",{patient_data : JSON.stringify(sendPatientInfo())})
-			.done(function(data, status){
-				//var status = JSON.stringify(data);
-				alert(status);
-				getPatientFromServer();
-				$(".modal .close").click();
-			});
+			callAddPatientService();
 		} else {
-			$.post("/v1/updatepatient",{patient_data : JSON.stringify(sendPatientInfo())})
-			.done(function(data, status){
-				alert(status);
-				console.log( JSON.stringify(sendPatientInfo()));
-				getPatientFromServer();
-				$(".modal .close").click();
-			});
+			callUpdatePatientService();
 		}
 	});
 	
@@ -50,95 +37,6 @@ function appendPatientIcons() {
 	"</div>"
 
 	return icons;
-}
-
-function getPatientFromServer(){
-	var patientDataset = [];
-	$.getJSON("/v1/fetchallpatient", function(data){
-		for (var key in data) {
-			if(data.hasOwnProperty(key)){
-				var value = data[key];
-				console.log(value);
-				var dataParse = JSON.stringify(value);
-				for (var i = 0; i < value.length; i++) {
-					if(value[i].firstname != null){
-						if(value[i].status == 1){
-							patientJsonResult.push(patientNum);
-							patientJsonResult.push(value[i].firstname);
-							patientJsonResult.push(value[i].lastname);
-							patientJsonResult.push(value[i].birthdate);
-							patientJsonResult.push(value[i].primary_contact);
-							patientJsonResult.push(appendPatientIcons());
-							patientJsonResult.push(value[i].middlename);
-							patientJsonResult.push(value[i].gender);
-							patientJsonResult.push(value[i].address);
-							patientJsonResult.push(value[i].email_address);
-							patientJsonResult.push(value[i].secondary_contact);
-							patientJsonResult.push(value[i].id);
-							patientJsonResult.push(value[i].status);
-							patientDataset.push(patientJsonResult);
-							patientJsonResult = [];
-							patientNum++;
-						}
-					}
-				}
-				console.log("Data: " + dataParse);
-				console.log("array :" + patientJsonResult);
-			}
-		};
-		console.log(patientDataset.status);
-		patientTable.clear();
-		patientTable.rows.add(patientDataset);
-		patientTable.draw();
-
-		updatePatient();
-
-	});
-}
-
-function deletePatientFromServer(patientDBId){
-	$.post("/v1/archivepatient",{patient_id : JSON.stringify(patientDBId)})
-	.done(function(data, status){
-		var status = JSON.stringify(data);
-		alert(status);
-		getPatientFromServer();
-	});
-}
-
-function initializeDataTable(){
-	patientTable = $('#patientRecords').DataTable( {
-		columns: [
-		{title: "#"},
-		{title: "First Name"},
-		{title: "Last Name"},
-		{title: "Birthdate"},
-		{title: "Phone Contact"},
-		{title: ""}
-		],
-		"deferRender": true
-	} );
-}
-
-function updatePatient(){
-	$("#patientRecords tbody").on('click', '.updatePatient' , function(){
-		var closestRow = $(this).closest('tr');
-		data = patientTable.row(closestRow).data();
-		var taskID = data;
-		$('#addPatient').modal('show');
-		setPatientData(data);
-	});
-}
-
-function deletePatient(){
-	$("#patientRecords tbody").on('click', '.archiveData' , function(){
-		var closestRow = $(this).closest('tr');
-		var deletePatientId = patientTable.row(closestRow).data();
-		if (confirm("Do you want to delete?")) {
-			deletePatientFromServer(deletePatientId[11]);
-		}
-		return false;
-		
-	});
 }
 
 function setPatientData(patientValue){
@@ -177,7 +75,6 @@ function sendPatientInfo(){
 	} else {
 		sendPatientObject["secondary_contact"] = $('#secondary').val();
 	}
-	// sendPatientDataArray["patient_data"] = JSON.stringify(sendPatientObject);
-	// sendPatientDataArray["data"] = sendPatientObject;
+	
 	return sendPatientObject;
 }
