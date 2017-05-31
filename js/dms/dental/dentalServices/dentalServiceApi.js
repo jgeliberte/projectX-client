@@ -55,10 +55,10 @@ function calUpdateDentalService(){
 }
 
 function callDeleteDentalService(serviceId){
-	$.post("/v1/archiveservice",{patient_id : JSON.stringify(serviceId)})
+	$.post("/v1/deleteservice",{service_id : JSON.stringify(serviceId)})
 	.done(function(data, status){
 		var status = JSON.stringify(data);
 		alert(status);
-		getPatientFromServer();
+		callGetDentalServices();
 	});
 }

@@ -5,14 +5,24 @@ $(document).ready(function() {
 		window.location = '/v1/logs';
 	});
 
-	// $.getJSON("/v1/fetchLogs", function(data){
+	$.getJSON("/v1/fetchlogs", function(data_set){
 
-	// });
-	
-	logsTable = $('#logs').DataTable( {
+		var dataset = [];
+		var dataraw= [];
+
+		for (var counter = 0; counter < data_set.length; counter++) {
+			var dataraw = $.map(data_set[counter], function(value, index) {
+			    return [value];
+			});
+			dataset.push(dataraw);
+		}
+
+		logsTable = $('#logs').DataTable( {
+			data: dataset,
 			columns: [
 			{title: "#"},
 			{title: "Logs"}
 			]
-		} );
+		});
+	});
 });
