@@ -26,7 +26,9 @@ $(document).ready(function() {
 		$(".modal-body input").val("")
 	});
 
-	$('#birthdate').datepicker();
+	$('#birthdate').datepicker({
+		dateFormat: 'yy-mm-dd'
+	});
 
 });
 
