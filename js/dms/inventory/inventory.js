@@ -4,4 +4,15 @@ $(document).ready(function() {
 	});
 
 	initializeInventoryDataTable();
+	callGetInventory();
 });
+
+function sendInventoryInfo(){
+	var inventory = {};
+	dentalService["service_name"] = $("#serviceName").val();
+	dentalService["service_fee"] =  $("#fee").val();
+	dentalService["date_created"] = getCurentDate();
+	dentalService["date_updated"] = getCurentDate();
+
+	return dentalService;
+}
