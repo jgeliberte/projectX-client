@@ -63,7 +63,7 @@ function displayPopOverOnCheck(json){
 				if(checkId == this.id){
 					console.log('#' + checkId);
 					
-					$("#"+this.id).popover({ html:true, title: "<b>Quantity:</b> <input type='number' id='quantityTooth' class='form-control' value='1'>", content: "<b>Amount:</b> <input type='text' id='serviceFee' class='form-control'/>" });
+					$("#popCheck"+checkId).popover({ html:true, title: "<b>Quantity:</b> <input type='number' id='quantityTooth' class='form-control' value='1'>", content: "<b>Amount:</b> <input type='text' id='serviceFee' class='form-control'/>" });
 					var fee = this.service_fee;
 					$('#serviceFee').val(fee);
 					$('#quantityTooth').on("change", function(){
@@ -74,9 +74,9 @@ function displayPopOverOnCheck(json){
 				}
 
 			}else {
-				console.log(valueId + " " + this.service_name);
-				$("#"+this.id).popover({ html:true, title: "<b>Quantity:</b> <input type='number' id='quantityTooth' class='form-control' value='1'>", content: "<b>Amount:</b> <input type='text' id='serviceFee' class='form-control'/>" });
-				//$("#"+checkId).popover('hide');
+				// console.log(this.service_name);
+				//$("#"+this.id).popover({ html:true, title: "<b>Quantity:</b> <input type='number' id='quantityTooth' class='form-control' value='1'>", content: "<b>Amount:</b> <input type='text' id='serviceFee' class='form-control'/>" });
+				$("#popCheck4").popover('hide');
 			}
 		});
 		
@@ -95,8 +95,8 @@ function appendService(json){
 		//console.log(json);
 		//inputId = inputId.replace(/ /g, '');
 		$("#serviceIdDiv").append($("<div class='col-sm-4'><div class='checkbox'>" + 
-			"<label style='margin-right: 1%;'><input type='checkbox' id='"+this.id+"' name='serviceRendered' value='"+this.service_name+"'/>" +this.service_name+ "</label>" +
-			"</div></div>"));
+			"<label style='margin-right: 1%;'><div id='popCheck"+this.id+"'><input type='checkbox' id='"+this.id+"' name='serviceRendered' value='"+this.service_name+"'/>" +this.service_name+ "</label>" +
+			"</div></div></div>"));
 	});
 }
 
