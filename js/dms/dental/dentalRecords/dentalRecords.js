@@ -1,6 +1,6 @@
 var inputId;
 var serviceFee = [];
-
+var amountPerService;
 
 $(document).ready(function() {
 	var date = new Date();
@@ -32,16 +32,19 @@ $(document).ready(function() {
 
 function sendDentalServiceActivity(){
 	var sendDentalObject = {};
-
+	var amount = 0;
 	for(var i = 0; i < serviceFee.length; i++){
-		alert(serviceFee[i]);
+		// alert(serviceFee[i]);
+		console.log(serviceFee[i]);
+		amount = amount + parseInt(serviceFee[i]);
+		console.log(amount);
 	// 	sendDentalObject["patient_fk_id"] = dental[11];
 	// sendDentalObject["service_rendered"] = serviceFee[i];
 	// sendDentalObject["date_rendered"]
 	// sendDentalObject["fee_rendered"]
 	// sendDentalObject["remarks_rendered"]
 }
-
+$('#totalAmount').val(amount);
 }
 
 function appendDentalPatientIcons() {
@@ -64,7 +67,7 @@ function displayPopOverOnCheck(json){
 			placement : 'bottom',
 			title: "<b>Quantity:</b> <input type='number' id='quantityTooth' class='form-control' value='1'>", 
 			content: "<div style='margin-bottom:5px;'><b>Amount:</b>"+
-			"<input type='text' id='"+this.id+"php' class='form-control'/></div>"+
+			"<input type='text' id='"+this.id+"php' class='form-control' disabled/></div>"+
 			"<input type='button' name='popOver' style='margin: auto; display: block;' class='btn btn-primary btn-md' value='Confirm'>" });
 		
 		$('#'+this.id).click(function(){
@@ -73,54 +76,25 @@ function displayPopOverOnCheck(json){
 			var qtyValue = this.value;
 			$('#quantityTooth').on("change", function(){
 				console.log(this.value);
-				computeFeePerService(this.value, fee);
-
+				amountPerService = computeFeePerService(this.value, fee);
+				$('#'+checkId+'php').val(amountPerService);
 			});
 
 			$('input[name="popOver"]').on('click',function(){
 				$('.popover').popover('hide');
-				$('.'+checkId).text($('#quantityTooth').val());
+				$('.'+checkId+'bd').text($('#quantityTooth').val());
+				serviceFee.push($('#'+checkId+'php').val());
+				sendDentalServiceActivity();
 			});
-			// } else {
-			// 	
-			// }
-			console.log(fee);
-			
 		});
 
 	});
-	// $('.checkbox').on("click", ":checkbox", function () {
-	// 	var checkId = this.id;
-	// 	var isChecked = this.checked;
-
-	// 		if(isChecked){
-	// 			if(checkId == this.id){
-	// 				console.log('#' + checkId);
-
-	// 				$("#popCheck"+checkId).popover({ html:true, title: "<b>Quantity:</b> <input type='number' id='quantityTooth' class='form-control' value='1'>", content: "<b>Amount:</b> <input type='text' id='serviceFee' class='form-control' disabled/>" });
-	// 				var fee = this.service_fee;
-	// 				$('#serviceFee').val(fee);
-	// 				$('#quantityTooth').on("change", function(){
-	// 					console.log(this.value);
-	// 					computeFeePerService(this.value, fee);
-	// 				});
-
-	// 			}
-
-	// 		}else {
-	// 			// console.log(this.service_name);
-	// 			//$("#"+this.id).popover({ html:true, title: "<b>Quantity:</b> <input type='number' id='quantityTooth' class='form-control' value='1'>", content: "<b>Amount:</b> <input type='text' id='serviceFee' class='form-control'/>" });
-	// 			$("#popCheck4").popover('hide');
-	// 		}
-	// 	});
-
-	// });
 }
 
 function computeFeePerService(quantity, serviceFee){
 	var totalServiceFee = serviceFee * quantity ;
-	$('#serviceFee').val(totalServiceFee);
 	console.log(totalServiceFee);
+	return totalServiceFee
 }
 
 function appendService(json){
@@ -134,7 +108,7 @@ function appendService(json){
 
 		$('#serviceIdDiv').append($('<div class="col-xs-4" style="margin-top:10px;">'+
 			'<button type="button" class="btn btn-primary form-control btnService" id="'+this.id+'">'+
-			''+this.service_name.toUpperCase()+'<span class="badge '+this.id+'"></span></button></div>'));
+			''+this.service_name.toUpperCase()+'<span style="margin-left: 5px;" class="badge '+this.id+'bd"></span></button></div>'));
 
 	});
 }
