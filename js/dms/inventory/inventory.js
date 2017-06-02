@@ -22,8 +22,8 @@ $(document).ready(function() {
 
 function appendInvetorysIcons() {
 	var icons = "<div style='display: block;text-align: center;'>" + 
-	"<span class='updateInventory glyphicon glyphicon-pencil' aria-hidden='true' style='margin-right: 15%;'></span>" + 
-	"<span class='archiveInventory glyphicon glyphicon-trash' aria-hidden='true'></span>" + 
+	"<a href='#' data-toggle='tooltip' data-placement='top' title='Update Inventory'" +
+	"<span class='updateInventory glyphicon glyphicon-pencil' aria-hidden='true' style='margin-right: 15%;'></span></a>" +
 	"</div>"
 
 	return icons;

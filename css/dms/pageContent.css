@@ -130,3 +130,11 @@ a:hover {
     /* symbol for "collapsed" panels */
     content: "\e080";    /* adjust as needed, taken from bootstrap.css */
 }
+
+a {
+	color: #000000 !important;
+}
+
+a:hover {
+	text-decoration: none !important;
+}

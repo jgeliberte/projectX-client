@@ -46,9 +46,11 @@ function sendDentalServiceActivity(){
 }
 
 function appendDentalPatientIcons() {
-	var icons = "<div style='display: block;text-align: center;'>" + 
-	"<i class='addRecords fa fa-plus-square ' aria-hidden='true' style='margin-right: 15%;'></i>" +
-	"<i class='previewDental fa fa-eye' aria-hidden='true'></i>" +
+	var icons = "<div style='display: block;text-align: center;'>" +
+	"<a href='#' data-toggle='tooltip' data-placement='top' title='Diagnose Patient'" + 
+	"<i class='addRecords fa fa-plus-square ' aria-hidden='true' style='margin-right: 15%;'></i></a>" +
+	"<a href='#' data-toggle='tooltip' data-placement='right' title='Preview Diagnose'" + 
+	"<i class='previewDental fa fa-eye' aria-hidden='true'></i></a>" +
 	"</div>"
 
 	return icons;
@@ -63,7 +65,7 @@ function displayPopOverOnCheck(json){
 				if(checkId == this.id){
 					console.log('#' + checkId);
 					
-					$("#popCheck"+checkId).popover({ html:true, title: "<b>Quantity:</b> <input type='number' id='quantityTooth' class='form-control' value='1'>", content: "<b>Amount:</b> <input type='text' id='serviceFee' class='form-control'/>" });
+					$("#popCheck"+checkId).popover({ html:true, title: "<b>Quantity:</b> <input type='number' id='quantityTooth' class='form-control' value='1'>", content: "<b>Amount:</b> <input type='text' id='serviceFee' class='form-control' disabled/>" });
 					var fee = this.service_fee;
 					$('#serviceFee').val(fee);
 					$('#quantityTooth').on("change", function(){
@@ -98,7 +100,7 @@ function appendService(json){
 		// 	"<label style='margin-right: 1%;'><div id='popCheck"+this.id+"'><input type='checkbox' id='"+this.id+"' name='serviceRendered' value='"+this.service_name+"'/>" +this.service_name+ "</label>" +
 		// 	"</div></div></div>"));
 
-		$('#serviceIdDiv').append($('<div class="col-xs-4" style="margin-top:10px;"><button type="button" class="btn btn-primary form-control" id="'+this.id+'">+ '+this.service_name.toUpperCase()+'</button></div>'));
+		$('#serviceIdDiv').append($('<div class="col-xs-4" style="margin-top:10px;"><button type="button" class="btn btn-primary form-control" id="'+this.id+'">'+this.service_name.toUpperCase()+'</button></div>'));
 
 	});
 }

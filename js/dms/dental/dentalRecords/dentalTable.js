@@ -21,7 +21,7 @@ function addDental(){
 		$('#addDental').modal('show');
 		$('#patientName').text(data[2].toUpperCase() + ", " + data[1].toUpperCase() +" "+ data[6].toUpperCase());
 		$('#gender').text(data[7]);
-		$('#primary').text(data[4]);
+		$('#primary').text(data[3]);
 		
 	});
 }

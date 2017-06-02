@@ -16,6 +16,7 @@ function initializeInventoryDataTable(){
 
 function updateInventory(){
 	$("#inventory tbody").on('click', '.updateInventory' , function(){
+		$("#btnAddInventory").text("Update").addClass("fa fa-suitcase fa-lg")
 		var closestRow = $(this).closest('tr');
 		inventoryData = inventoryTable.row(closestRow).data();
 		setInventoryData(inventoryData);
