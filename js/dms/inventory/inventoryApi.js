@@ -14,7 +14,9 @@ function callGetInventory() {
 						inventoryResult.push(value[i].item_code);
 						inventoryResult.push(value[i].item_name);
 						inventoryResult.push(value[i].item_quantity);
+						inventoryResult.push(value[i].item_price);
 						inventoryResult.push(appendInvetorysIcons());
+						inventoryResult.push(value[i].id);
 						inventoryDataSet.push(inventoryResult);
 						inventoryResult = [];
 						inventoryServiceNum++;
@@ -26,6 +28,7 @@ function callGetInventory() {
 		inventoryTable.rows.add(inventoryDataSet);
 		inventoryTable.draw();
 
+		updateInventory();
 		// updateService();
 
 	});
@@ -35,14 +38,17 @@ function callAddInventory() {
 	$.post("/v1/additem",{inventory_data : JSON.stringify(sendInventoryInfo())})
 	.done(function(data, status){
 		alert(data);
-		callGetDentalServices();
-		$(".modal .close").click();
-
+		callGetInventory();
 	});
 }
 
 function callUpdateInventory() {
-	// body...
+	$.post("/v1/updateitem",{inventory_data : JSON.stringify(sendInventoryInfo())})
+	.done(function(data, status){
+		alert(data);
+		$('input').val("");
+		callGetInventory();
+	});
 }
 
 function callDeleteInventory() {

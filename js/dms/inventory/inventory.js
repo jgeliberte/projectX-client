@@ -1,3 +1,5 @@
+var inventoryId = "";
+
 $(document).ready(function() {
 	$('#inventoryMenu').click(function(){
 		window.location = '/v1/dentalinventory';
@@ -7,11 +9,14 @@ $(document).ready(function() {
 	callGetInventory();
 
 	$('#btnAddInventory').on('click', function(){
-		//if(data == null){
+		if(inventoryData == null){
 			callAddInventory();
-		// } else {
-		// 	callUpdatePatientService();
-		// }
+			inventoryData = null;
+		} else {
+			callUpdateInventory();
+			inventoryData = null;
+			inventoryId = "";
+		}
 	});
 });
 
@@ -24,11 +29,25 @@ function appendInvetorysIcons() {
 	return icons;
 }
 
+function setInventoryData(inventoryValue){
+	inventoryId = inventoryValue[6];
+	$('#name').val(inventoryValue[2]);
+	$('#code').val(inventoryValue[1]);
+	$('#qty').val(inventoryValue[3]);
+	$('#price').val(inventoryValue[4]);
+}
+
 function sendInventoryInfo(){
 	var inventory = {};
+	
+	if(inventoryId != ""){
+		inventory["idinventory"] = inventoryId;
+	}
+
 	inventory["item_code"] = $("#code").val();
 	inventory["item_name"] =  $("#name").val();
 	inventory["item_quantity"] = $("#qty").val();
+	inventory["item_price"] = $("#price").val();
 	inventory["date_created"] = getCurentDate();
 	inventory["date_updated"] = getCurentDate();
 
