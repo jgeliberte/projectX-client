@@ -110,10 +110,6 @@
 	text-align: center;
 }
 
-a:hover {
-	text-decoration: none;
-}
-
 .dentalPatientNameFont {
 	color: #4679BD;
 	font-size: 30px;
@@ -131,10 +127,10 @@ a:hover {
     content: "\e080";    /* adjust as needed, taken from bootstrap.css */
 }
 
-a {
+#tool{
 	color: #000000 !important;
 }
 
-a:hover {
+#tool:hover {
 	text-decoration: none !important;
 }

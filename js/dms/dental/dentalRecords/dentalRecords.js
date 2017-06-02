@@ -47,10 +47,10 @@ function sendDentalServiceActivity(){
 
 function appendDentalPatientIcons() {
 	var icons = "<div style='display: block;text-align: center;'>" +
-	"<a href='#' data-toggle='tooltip' data-placement='top' title='Diagnose Patient'" + 
-	"<i class='addRecords fa fa-plus-square ' aria-hidden='true' style='margin-right: 15%;'></i></a>" +
-	"<a href='#' data-toggle='tooltip' data-placement='right' title='Preview Diagnose'" + 
-	"<i class='previewDental fa fa-eye' aria-hidden='true'></i></a>" +
+	"<div id='tool' data-toggle='tooltip' data-placement='top' title='Diagnose Patient'" + 
+	"<i class='addRecords fa fa-plus-square ' aria-hidden='true' style='margin-right: 15%;'></i></div>" +
+	"<div id='tool' href='#' data-toggle='tooltip' data-placement='right' title='Preview Diagnose'" + 
+	"<i class='previewDental fa fa-eye' aria-hidden='true'></i></div>" +
 	"</div>"
 
 	return icons;

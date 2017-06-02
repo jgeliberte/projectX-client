@@ -28,8 +28,10 @@ $(document).ready(function() {
 
 function appendDentalServiceIcons() {
 	var icons = "<div style='display: block;text-align: center;'>" + 
-	"<span class='updateService glyphicon glyphicon-pencil' aria-hidden='true' style='margin-right: 15%;'></span>" +
-	"<span class='archiveService glyphicon glyphicon-trash' aria-hidden='true'></span>" +
+	"<div id='tool' data-toggle='tooltip' data-placement='top' title='Update Service'" + 
+	"<span class='updateService glyphicon glyphicon-pencil' aria-hidden='true' style='margin-right: 15%;'></span></div>" +
+	"<div id='tool' data-toggle='tooltip' data-placement='top' title='Remove Service'" + 
+	"<span class='archiveService glyphicon glyphicon-trash' aria-hidden='true'></span></div>" +
 	"</div>"
 
 	return icons;

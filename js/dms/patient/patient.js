@@ -34,10 +34,10 @@ $(document).ready(function() {
 
 function appendPatientIcons() {
 	var icons = "<div style='display: block;text-align: center;'>" + 
-	"<a href='#' data-toggle='tooltip' data-placement='top' title='Update Patient'" +
-	"<span class='updatePatient glyphicon glyphicon-pencil' aria-hidden='true' style='margin-right: 15%;'></span></a>" +
-	"<a href='#' data-toggle='tooltip' data-placement='top' title='Remove Patient'" + 
-	"<span class='archiveData glyphicon glyphicon-trash' aria-hidden='true'></span></a>" + 
+	"<div id='tool' data-toggle='tooltip' data-placement='top' title='Update Patient'" +
+	"<span class='updatePatient glyphicon glyphicon-pencil' aria-hidden='true' style='margin-right: 15%;'></span></div>" +
+	"<div id='tool' data-toggle='tooltip' data-placement='top' title='Remove Patient'" + 
+	"<span class='archiveData glyphicon glyphicon-trash' aria-hidden='true'></span></div>" + 
 	"</div>"
 
 	return icons;
