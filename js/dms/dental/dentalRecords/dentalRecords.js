@@ -57,32 +57,59 @@ function appendDentalPatientIcons() {
 }
 
 function displayPopOverOnCheck(json){
-	$('.checkbox').on("change", ":checkbox", function () {
+	$.each(json, function () {
+		var fee = this.service_fee;
 		var checkId = this.id;
-		var isChecked = this.checked;
-		$.each(json, function () {
-			if(isChecked){
-				if(checkId == this.id){
-					console.log('#' + checkId);
-					
-					$("#popCheck"+checkId).popover({ html:true, title: "<b>Quantity:</b> <input type='number' id='quantityTooth' class='form-control' value='1'>", content: "<b>Amount:</b> <input type='text' id='serviceFee' class='form-control' disabled/>" });
-					var fee = this.service_fee;
-					$('#serviceFee').val(fee);
-					$('#quantityTooth').on("change", function(){
-						console.log(this.value);
-						computeFeePerService(this.value, fee);
-					});
-
-				}
-
-			}else {
-				// console.log(this.service_name);
-				//$("#"+this.id).popover({ html:true, title: "<b>Quantity:</b> <input type='number' id='quantityTooth' class='form-control' value='1'>", content: "<b>Amount:</b> <input type='text' id='serviceFee' class='form-control'/>" });
-				$("#popCheck4").popover('hide');
+		$('#'+this.id).popover({html:true,
+			placement : 'bottom',
+			title: "<b>Quantity:</b> <input type='number' id='quantityTooth' class='form-control' value='1'>", 
+			content: "<div style='margin-bottom:5px;'><b>Amount:</b> <input type='text' id='serviceFee' class='form-control'/></div><button id='popOver' style='margin: auto; display: block;' class='btn btn-primary btn-md'>Ok</button>" });
+		$('#'+this.id).click(function(){
+			console.log(this.id + " " + checkId);
+			if(this.id == checkId){
+				$('#serviceFee').val(fee);
+				$('#quantityTooth').on("change", function(){
+					console.log(this.value);
+					computeFeePerService(this.value, fee);
+				});
+			} else {
+				$('#'+checkId).popover("hide");
 			}
+			console.log(fee);
+			
 		});
-		
+
+		$('#popOver').click(function(){
+			$('#'+checkId).popover("hide");
 	});
+
+	});
+	// $('.checkbox').on("click", ":checkbox", function () {
+	// 	var checkId = this.id;
+	// 	var isChecked = this.checked;
+
+	// 		if(isChecked){
+	// 			if(checkId == this.id){
+	// 				console.log('#' + checkId);
+
+	// 				$("#popCheck"+checkId).popover({ html:true, title: "<b>Quantity:</b> <input type='number' id='quantityTooth' class='form-control' value='1'>", content: "<b>Amount:</b> <input type='text' id='serviceFee' class='form-control' disabled/>" });
+	// 				var fee = this.service_fee;
+	// 				$('#serviceFee').val(fee);
+	// 				$('#quantityTooth').on("change", function(){
+	// 					console.log(this.value);
+	// 					computeFeePerService(this.value, fee);
+	// 				});
+
+	// 			}
+
+	// 		}else {
+	// 			// console.log(this.service_name);
+	// 			//$("#"+this.id).popover({ html:true, title: "<b>Quantity:</b> <input type='number' id='quantityTooth' class='form-control' value='1'>", content: "<b>Amount:</b> <input type='text' id='serviceFee' class='form-control'/>" });
+	// 			$("#popCheck4").popover('hide');
+	// 		}
+	// 	});
+
+	// });
 }
 
 function computeFeePerService(quantity, serviceFee){
@@ -100,7 +127,7 @@ function appendService(json){
 		// 	"<label style='margin-right: 1%;'><div id='popCheck"+this.id+"'><input type='checkbox' id='"+this.id+"' name='serviceRendered' value='"+this.service_name+"'/>" +this.service_name+ "</label>" +
 		// 	"</div></div></div>"));
 
-		$('#serviceIdDiv').append($('<div class="col-xs-4" style="margin-top:10px;"><button type="button" class="btn btn-primary form-control" id="'+this.id+'">'+this.service_name.toUpperCase()+'</button></div>'));
+		$('#serviceIdDiv').append($('<div class="col-xs-4" style="margin-top:10px;"><button type="button" class="btn btn-primary form-control btnService" id="'+this.id+'">'+this.service_name.toUpperCase()+'</button></div>'));
 
 	});
 }
