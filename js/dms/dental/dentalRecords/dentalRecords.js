@@ -18,8 +18,7 @@ $(document).ready(function() {
 	$('#btnAddActivity').click(function(){
 		//$('input[name=serviceRendered]:checked').each(function(){
 			sendDentalServiceActivity();
-			$(".modal .close").click();
-			$('input[type=checkbox]').attr('checked',false);
+			
 		//});
 		
 	});
@@ -27,6 +26,7 @@ $(document).ready(function() {
 	$('.modal').on('hidden.bs.modal', function(e) { 
 		$(".modal-body input").val("")
 		$('.popover').popover('hide');
+		$('.badge').text("");
 	});
 });
 
