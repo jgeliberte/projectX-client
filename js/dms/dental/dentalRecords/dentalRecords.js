@@ -102,7 +102,7 @@ function setDataDiagnose(){
 	diagnoseData['service_rendered'] = serviceName;
 	diagnoseData['date_rendered'] = getCurentDate();
 	diagnoseData['fee_rendered'] = amountPerService;
-	diagnoseData['remarks_rendered'] = $('#remarks').val(); + "Amount" +" "+ $('#totalAmount').val();
+	diagnoseData['remarks_rendered'] = $('#remarks').val() +" "+ "Amount" +" "+ $('#totalAmount').val();
 	diagnoseArray.push(diagnoseData);
 	console.log("DiagnoseO" + " " + JSON.stringify(diagnoseData));
 	console.log("DiagnoseA" + " " + JSON.stringify(diagnoseArray));
