@@ -26,7 +26,7 @@ $(document).ready(function() {
 
 	$('.modal').on('hidden.bs.modal', function(e) { 
 		$(".modal-body input").val("")
-		value = "";
+		$('.popover').popover('hide');
 	});
 });
 
