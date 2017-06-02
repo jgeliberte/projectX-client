@@ -1,6 +1,9 @@
 var inputId;
 var serviceFee = [];
 var amountPerService;
+var serviceName;
+var diagnoseData = {};
+	var diagnoseArray = [];
 
 $(document).ready(function() {
 	var date = new Date();
@@ -45,6 +48,7 @@ function sendDentalServiceActivity(){
 	// sendDentalObject["remarks_rendered"]
 }
 $('#totalAmount').val(amount);
+setDataDiagnose();
 }
 
 function appendDentalPatientIcons() {
@@ -62,7 +66,6 @@ function displayPopOverOnCheck(json){
 	$.each(json, function () {
 		var fee = this.service_fee;
 		var checkId = this.id;
-
 		$('#'+this.id).popover({html:true,
 			placement : 'bottom',
 			title: "<b>Quantity:</b> <input type='number' id='quantityTooth' class='form-control' value='1'>", 
@@ -71,12 +74,15 @@ function displayPopOverOnCheck(json){
 			"<input type='button' name='popOver' style='margin: auto; display: block;' class='btn btn-primary btn-md' value='Confirm'>" });
 		
 		$('#'+this.id).click(function(){
-			console.log(this.id + " " + checkId);
+			serviceName = this.service_name;
+			console.log(serviceName);
+			amountPerService = fee;
 			$('#'+this.id+'php').val(fee);
 			var qtyValue = this.value;
 			$('#quantityTooth').on("change", function(){
 				console.log(this.value);
 				amountPerService = computeFeePerService(this.value, fee);
+				console.log(amountPerService);
 				$('#'+checkId+'php').val(amountPerService);
 			});
 
@@ -89,6 +95,17 @@ function displayPopOverOnCheck(json){
 		});
 
 	});
+}
+
+function setDataDiagnose(){
+	diagnoseData['patient_fk_id'] = data[11];
+	diagnoseData['service_rendered'] = serviceName;
+	diagnoseData['date_rendered'] = getCurentDate();
+	diagnoseData['fee_rendered'] = amountPerService;
+	diagnoseData['remarks_rendered'] = $('#remarks').val(); + "Amount" +" "+ $('#totalAmount').val();
+	diagnoseArray.push(diagnoseData);
+	console.log("DiagnoseO" + " " + JSON.stringify(diagnoseData));
+	console.log("DiagnoseA" + " " + JSON.stringify(diagnoseArray));
 }
 
 function computeFeePerService(quantity, serviceFee){
