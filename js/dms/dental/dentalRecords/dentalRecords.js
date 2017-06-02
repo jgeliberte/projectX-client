@@ -59,17 +59,17 @@ function displayPopOverOnCheck(json){
 	$.each(json, function () {
 		var fee = this.service_fee;
 		var checkId = this.id;
-		
+
 		$('#'+this.id).popover({html:true,
 			placement : 'bottom',
 			title: "<b>Quantity:</b> <input type='number' id='quantityTooth' class='form-control' value='1'>", 
 			content: "<div style='margin-bottom:5px;'><b>Amount:</b>"+
-			"<input type='text' id='"+this.id+"' class='form-control'/></div>"+
+			"<input type='text' id='"+this.id+"php' class='form-control'/></div>"+
 			"<input type='button' name='popOver' style='margin: auto; display: block;' class='btn btn-primary btn-md' value='Confirm'>" });
 		
 		$('#'+this.id).click(function(){
 			console.log(this.id + " " + checkId);
-			$('#' + this.id).val(fee);
+			$('#'+this.id+'php').val(fee);
 			var qtyValue = this.value;
 			$('#quantityTooth').on("change", function(){
 				console.log(this.value);
