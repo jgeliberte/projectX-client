@@ -59,27 +59,35 @@ function displayPopOverOnCheck(json){
 	$.each(json, function () {
 		var fee = this.service_fee;
 		var checkId = this.id;
+		
 		$('#'+this.id).popover({html:true,
 			placement : 'bottom',
 			title: "<b>Quantity:</b> <input type='number' id='quantityTooth' class='form-control' value='1'>", 
-			content: "<div style='margin-bottom:5px;'><b>Amount:</b> <input type='text' id='serviceFee' class='form-control'/></div><input type='button' name='popOver' style='margin: auto; display: block;' class='btn btn-primary btn-md' value='Confirm'>" });
+			content: "<div style='margin-bottom:5px;'><b>Amount:</b>"+
+			"<input type='text' id='"+this.id+"' class='form-control'/></div>"+
+			"<input type='button' name='popOver' style='margin: auto; display: block;' class='btn btn-primary btn-md' value='Confirm'>" });
+		
 		$('#'+this.id).click(function(){
 			console.log(this.id + " " + checkId);
-			if(this.id == checkId){
-				$('#serviceFee').val(fee);
-				$('#quantityTooth').on("change", function(){
-					console.log(this.value);
-					computeFeePerService(this.value, fee);
-				});
-			} else {
-				$('#'+checkId).popover("hide");
-			}
+			$('#' + this.id).val(fee);
+			var qtyValue = this.value;
+			$('#quantityTooth').on("change", function(){
+				console.log(this.value);
+				computeFeePerService(this.value, fee);
+
+			});
 
 			$('input[name="popOver"]').on('click',function(){
 				$('.popover').popover('hide');
+				$('.'+checkId).text($('#quantityTooth').val());
 			});
-
+			// } else {
+			// 	
+			// }
+			console.log(fee);
+			
 		});
+
 	});
 	// $('.checkbox').on("click", ":checkbox", function () {
 	// 	var checkId = this.id;
@@ -124,7 +132,9 @@ function appendService(json){
 		// 	"<label style='margin-right: 1%;'><div id='popCheck"+this.id+"'><input type='checkbox' id='"+this.id+"' name='serviceRendered' value='"+this.service_name+"'/>" +this.service_name+ "</label>" +
 		// 	"</div></div></div>"));
 
-		$('#serviceIdDiv').append($('<div class="col-xs-4" style="margin-top:10px;"><button type="button" class="btn btn-primary form-control btnService" id="'+this.id+'">'+this.service_name.toUpperCase()+'</button></div>'));
+		$('#serviceIdDiv').append($('<div class="col-xs-4" style="margin-top:10px;">'+
+			'<button type="button" class="btn btn-primary form-control btnService" id="'+this.id+'">'+
+			''+this.service_name.toUpperCase()+'<span class="badge '+this.id+'"></span></button></div>'));
 
 	});
 }
