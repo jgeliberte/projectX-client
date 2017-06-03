@@ -98,7 +98,7 @@ function appendService(json){
 		// 	"<label style='margin-right: 1%;'><div id='popCheck"+this.id+"'><input type='checkbox' id='"+this.id+"' name='serviceRendered' value='"+this.service_name+"'/>" +this.service_name+ "</label>" +
 		// 	"</div></div></div>"));
 
-		$('#serviceIdDiv').append($('<div class="col-xs-4"><button type="button" class="btn btn-primary form-control" id="'+this.id+'">+ '+this.service_name.toUpperCase()+'</button></div>'));
+		$('#serviceIdDiv').append($('<div class="col-xs-4" style="margin-top:10px;"><button type="button" class="btn btn-primary form-control" id="'+this.id+'">+ '+this.service_name.toUpperCase()+'</button></div>'));
 
 	});
 }
