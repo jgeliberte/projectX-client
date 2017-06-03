@@ -27,8 +27,7 @@ $(document).ready(function() {
 	$('.modal').on('hidden.bs.modal', function(e) { 
 		$(".modal-body input").val("")
 		value = "";
-	}) ;
-
+	});
 });
 
 function sendDentalServiceActivity(){
@@ -63,7 +62,7 @@ function displayPopOverOnCheck(json){
 		$('#'+this.id).popover({html:true,
 			placement : 'bottom',
 			title: "<b>Quantity:</b> <input type='number' id='quantityTooth' class='form-control' value='1'>", 
-			content: "<div style='margin-bottom:5px;'><b>Amount:</b> <input type='text' id='serviceFee' class='form-control'/></div><button id='popOver' style='margin: auto; display: block;' class='btn btn-primary btn-md'>Ok</button>" });
+			content: "<div style='margin-bottom:5px;'><b>Amount:</b> <input type='text' id='serviceFee' class='form-control'/></div><input type='button' name='popOver' style='margin: auto; display: block;' class='btn btn-primary btn-md' value='Confirm'>" });
 		$('#'+this.id).click(function(){
 			console.log(this.id + " " + checkId);
 			if(this.id == checkId){
@@ -75,14 +74,12 @@ function displayPopOverOnCheck(json){
 			} else {
 				$('#'+checkId).popover("hide");
 			}
-			console.log(fee);
-			
+
+			$('input[name="popOver"]').on('click',function(){
+				$('.popover').popover('hide');
+			});
+
 		});
-
-		$('#popOver').click(function(){
-			$('#'+checkId).popover("hide");
-	});
-
 	});
 	// $('.checkbox').on("click", ":checkbox", function () {
 	// 	var checkId = this.id;
